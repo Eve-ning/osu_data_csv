@@ -1,6 +1,6 @@
 name: Upload files to GCS
 
-on: [push]
+#on: [push]
 
 jobs:
   build-linux:
