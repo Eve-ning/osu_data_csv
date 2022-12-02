@@ -19,5 +19,5 @@ jobs:
     - name: Deploy
       run: |-
         mkdir data/
-        cat 123 > data/test.txt
+        echo 123 > data/test.txt
         gsutil -m mv -R data/ gs://${{ secrets.GCS_BUCKET }}
