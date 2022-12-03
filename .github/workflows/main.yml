@@ -1,13 +1,18 @@
 name: Upload files as Artifact
 
 
-on: [ workflow_dispatch ]
+on: [ pull_request ] #workflow_dispatch
 #  pull_request:
 #    types: [ labeled ]
 
+env:
+  FILE_TARGET: 2022_10_01_performance_mania_top_1000
+
 jobs:
   #    if: ${{ github.event.label.name == '' }}
+
   download:
+    if: ${{false}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,7 +26,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Python Download from https://data.ppy.sh
         run: |
-          python main.py
+          python main.py $FILE_TARGET
       - name: Upload Artifact generated
         uses: actions/upload-artifact@v3
         with:
