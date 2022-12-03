@@ -8,9 +8,6 @@ on: [ pull_request ]
 
 jobs:
 
-  defaults:
-    run:
-      working-directory: frontend
   #    if: ${{ github.event.label.name == '' }}
   #  download:
   #    runs-on: ubuntu-latest
