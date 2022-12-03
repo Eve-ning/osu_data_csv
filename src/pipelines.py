@@ -25,7 +25,7 @@ def download_pipeline(url: str, fn_tar: Path, overwrite=False, cleanup=False):
             fn_tar.unlink()
 
 
-def convert_pipeline(fn_dir: Path, sql_names: List[str]):
+def convert_pipeline_h5(fn_dir: Path, sql_names: List[str]):
     """ Converts the sql files to H5
 
     Args:
@@ -43,3 +43,25 @@ def convert_pipeline(fn_dir: Path, sql_names: List[str]):
 
     fn_tar = fn_dir / "data.tar.gz"
     zip_tar_bz2(fn_tar, fn_h5)
+
+
+def convert_pipeline_csv(fn_dir: Path, fn_dir_csv: Path, sql_names: List[str]):
+    """ Converts the sql files to csvs and
+
+    Args:
+        fn_dir: Directory of the SQLs to convert
+        fn_dir_csv: Directory of CSV output
+        sql_names: SQL file names to convert
+
+    """
+    for sql_name in sql_names:
+        fn_sql = fn_dir / sql_name
+        fn_csv = fn_dir_csv / (sql_name[:-3] + "csv")
+        if fn_csv.exists():
+            print(f"{fn_csv} exists, skipping")
+            continue
+        df, data_bad = sql_to_df(fn_sql)
+        df.to_csv(fn_csv, index=False)
+
+    fn_tar = fn_dir / "csv.tar.gz"
+    zip_tar_bz2(fn_tar, fn_dir / "csv")
