@@ -1,16 +1,16 @@
 name: Upload files to Release (Monthly)
 
 
-on: [ pull_request ] #workflow_dispatch
+#on: [ pull_request ] #workflow_dispatch
 #  pull_request:
 #    types: [ labeled ]
-
+on:
+  schedule:
+    - cron: "0 0 3 * *"
 
 jobs:
-  #    if: ${{ github.event.label.name == '' }}
   download:
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
