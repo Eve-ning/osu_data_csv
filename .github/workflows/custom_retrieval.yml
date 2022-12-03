@@ -1,54 +1,55 @@
 name: Upload files to Release (Custom)
 
 
-on: [ pull_request ] #workflow_dispatch
-#  pull_request:
-#    types: [ labeled ]
-#on:
-#  pull_request:
-#  schedule:
-#    - cron: "0 0 3 * *"
+on: [ pull_request ] # workflow_dispatch
 
 
 jobs:
-  download:
+  pipeline:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         mode: [ "mania" ]
         fn_version: [ "1000" ] #, "10000" ]
-        yyyy_mm: [ "2022_10" ]
+        yyyy_mm: [ "2022_09", "2022_10" ]
     steps:
       - name: Retrieve current dump target file name
         run: |
           echo "FILE_NAME=${{matrix.yyyy_mm}}_01_performance_${{matrix.mode}}_top_${{matrix.fn_version}}" >> $GITHUB_ENV
           echo "Target File Name: ${{ env.FILE_NAME }}"
+
       - name: Check if tag exists
         uses: mukunku/tag-exists-action@v1.2.0
         id: tagExists
         with:
           tag: ${{ env.FILE_NAME }}
+
       - name: Output tag exist check
         run: |
           echo "EXISTS=${{ steps.tagExists.outputs.exists }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
         if: env.EXISTS == 'false'
+
       - name: Set up Python 3.8
         if: env.EXISTS == 'false'
         uses: actions/setup-python@v3
         with:
           python-version: "3.8"
+
       - name: Install dependencies
         if: env.EXISTS == 'false'
         run: |
           python -m pip install --upgrade pip
           python -m pip install tables
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 'false'
         run: |
           python main.py $FILE_NAME
+
       - name: Upload binaries to release
         if: env.EXISTS == 'false'
         uses: svenstaro/upload-release-action@v2
