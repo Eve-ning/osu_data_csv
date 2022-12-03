@@ -15,7 +15,7 @@ if __name__ == '__main__':
     fn_dir = DATA_DIR / fn
     fn_dir_csv = fn_dir / "csv"
     fn_dir_csv.mkdir(parents=True, exist_ok=True)
-    fn_url = fr"https://data.ppy.sh/{fn}"
+    fn_url = fr"https://data.ppy.sh/{fn_tar}"
 
     download_pipeline(fn_url, DATA_DIR / fn, overwrite=True, cleanup=False)
 
