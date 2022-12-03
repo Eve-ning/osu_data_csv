@@ -17,7 +17,7 @@ if __name__ == '__main__':
     fn_dir_csv.mkdir(parents=True, exist_ok=True)
     fn_url = fr"https://data.ppy.sh/{fn}"
 
-    download_pipeline(fn_url, DATA_DIR / fn, overwrite=False, cleanup=False)
+    download_pipeline(fn_url, DATA_DIR / fn, overwrite=True, cleanup=False)
 
     sql_names = [
         "osu_user_stats_mania.sql",
