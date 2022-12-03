@@ -1,0 +1,50 @@
+name: Upload files to Release (Monthly)
+
+
+on: [ pull_request ] #workflow_dispatch
+#  pull_request:
+#    types: [ labeled ]
+
+env:
+  FILE_TARGET: 2022_10_01_performance_mania_top_1000
+
+jobs:
+  #    if: ${{ github.event.label.name == '' }}
+  download:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        fn_version: ["1000", "10000"]
+    steps:
+      - name: Retrieve current dump file name
+        run: |
+          echo "FILE_TARGET=$(date +'%Y_%m_01')_performance_mania_top_${{matrix.fn_version}}"  >> $GITHUB_ENV
+      - name: Debug
+        run: |
+          echo "${{ env.FILE_TARGET }}"
+          
+
+#      - uses: actions/checkout@v3
+#      - name: Set up Python 3.8
+#        uses: actions/setup-python@v3
+#        with:
+#          python-version: "3.8"
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          python -m pip install tables
+#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#      - name: Process data from https://data.ppy.sh with Python
+#        run: |
+#          python main.py $FILE_TARGET
+#      - name: Upload binaries to release
+#        uses: svenstaro/upload-release-action@v2
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          file_glob: true
+#          file: "data/**/csv.tar.gz"
+#          release_name: ${{ env.FILE_TARGET }}
+#          tag: ${{ env.FILE_TARGET }}
+#          overwrite: true
