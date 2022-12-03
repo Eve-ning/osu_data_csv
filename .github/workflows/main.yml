@@ -1,4 +1,4 @@
-name: Upload files as Artifact
+name: Upload files to Release
 
 
 on: [ pull_request ] #workflow_dispatch
@@ -10,7 +10,6 @@ env:
 
 jobs:
   #    if: ${{ github.event.label.name == '' }}
-
   download:
     runs-on: ubuntu-latest
     steps:
@@ -22,19 +21,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          python -m pip install tables
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Python Download from https://data.ppy.sh
+      - name: Process data from https://data.ppy.sh with Python
         run: |
           python main.py $FILE_TARGET
-#      #      - name: Upload Artifact generated
-#      #        uses: actions/upload-artifact@v3
-#      #        with:
-#      #          name: csv-artifact
-#      #          path: "data/*/csv.tar.gz"
-#  release:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
