@@ -8,8 +8,6 @@ def unzip_tar_bz2(fn_tar: Path):
     logging.info(f"Unzipping File {fn_tar}")
     with tarfile.open(fn_tar.as_posix(), "r:bz2") as tar:
         tar.extractall(fn_tar.parent)
-        # for sql_name in tqdm(sql_names, desc='Extracting Files'):
-        #     tar.extract(f"{fn_tar_name(fn_tar)}/{sql_name}", fn_tar.parent.as_posix())
 
 
 def zip_tar_bz2(fn_tar: Path, tar_target: Path, archive_name: str = 'csv'):

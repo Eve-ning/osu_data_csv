@@ -1,9 +1,12 @@
-name: Upload files as Artifact
+name: Upload files to Release
 
 
-on: [ workflow_dispatch ]
+on: [ workflow_dispatch ] #workflow_dispatch
 #  pull_request:
 #    types: [ labeled ]
+
+env:
+  FILE_TARGET: 2022_10_01_performance_mania_top_1000
 
 jobs:
   #    if: ${{ github.event.label.name == '' }}
@@ -18,29 +21,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          python -m pip install tables
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Python Download from https://data.ppy.sh
+      - name: Process data from https://data.ppy.sh with Python
         run: |
-          python main.py
-      - name: Upload Artifact generated
-        uses: actions/upload-artifact@v3
+          python main.py $FILE_TARGET
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: csv-artifact
-          path: "data/*/csv.tar.gz"
-#
-#  upload:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      max-parallel: 5
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Setup - gcloud / gsutil
-#        uses: google-github-actions/setup-gcloud@v0
-#        with:
-#          service_account_key: ${{ secrets.GCS_SA_KEY }}
-#          project_id: ${{ secrets.GCS_PROJECT }}
-#          export_default_credentials: true
-#      - name: Deploy
-#        run: |-
-#          gsutil -m mv -R data/ gs://${{ secrets.GCS_BUCKET }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: "data/**/csv.tar.gz"
+          release_name: ${{ env.FILE_TARGET }}
+          tag: ${{ env.FILE_TARGET }}
+          overwrite: true
