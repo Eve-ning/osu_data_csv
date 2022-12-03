@@ -57,6 +57,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
           file: "data/**/csv.tar.gz"
-          release_name: ${{ env.FILE_TARGET }}
-          tag: ${{ env.FILE_TARGET }}
+          release_name: ${{ env.$FILE_NAME }}
+          tag: ${{ env.$FILE_NAME }}
           overwrite: true
