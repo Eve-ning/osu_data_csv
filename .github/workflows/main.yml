@@ -1,27 +1,50 @@
-name: Upload files to GCS
+name: Upload files as Artifact
 
 
 on: [ workflow_dispatch ]
-  #  pull_request:
-  #    types: [ labeled ]
+#  pull_request:
+#    types: [ labeled ]
+
 
 jobs:
-  build-linux:
-    #    if: ${{ github.event.label.name == '' }}
+  #    if: ${{ github.event.label.name == '' }}
+  download:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
-
     steps:
       - uses: actions/checkout@v3
-      - name: Setup - gcloud / gsutil
-        uses: google-github-actions/setup-gcloud@v0
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v3
         with:
-          service_account_key: ${{ secrets.GCS_SA_KEY }}
-          project_id: ${{ secrets.GCS_PROJECT }}
-          export_default_credentials: true
-      - name: Deploy
-        run: |-
-          mkdir data/
-          echo 123 > data/test.txt
-          gsutil -m mv -R data/ gs://${{ secrets.GCS_BUCKET }}
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run Download
+        run: |
+          python main.py
+  upload-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/upload-artifact@v3
+        with:
+          name: csv-artifact
+          path: data/2022_10_01_performance_mania_top_1000/csv.tar.gz
+#
+#  upload:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 5
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Setup - gcloud / gsutil
+#        uses: google-github-actions/setup-gcloud@v0
+#        with:
+#          service_account_key: ${{ secrets.GCS_SA_KEY }}
+#          project_id: ${{ secrets.GCS_PROJECT }}
+#          export_default_credentials: true
+#      - name: Deploy
+#        run: |-
+#          gsutil -m mv -R data/ gs://${{ secrets.GCS_BUCKET }}
