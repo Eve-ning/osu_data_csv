@@ -33,9 +33,11 @@ jobs:
         with:
           tag: ${{ env.FILE_NAME }}
       - name: Output tag exist check
-        run: echo Tag ${{ steps.tagExists.outputs.exists }}
+        run: |
+          echo "EXISTS=${{ steps.tagExists.outputs.exists }}" >> $GITHUB_ENV
+          echo Tag ${{ env.EXISTS }}
       - name: Exit Early if exists
-        if: ${{ steps.tagExists.outputs.exists  == true }}
+        if: ${{ env.EXISTS == "true" }}
         run: |
           echo exiting
           exit 0
