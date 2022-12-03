@@ -7,6 +7,10 @@ on: [ pull_request ]
 
 
 jobs:
+
+  defaults:
+    run:
+      working-directory: frontend
   #    if: ${{ github.event.label.name == '' }}
   #  download:
   #    runs-on: ubuntu-latest
@@ -42,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: csv-artifact
-          path: "${GITHUB_WORKSPACE}/src/conf.py"
+          path: "src/*.py"
 #
 #  upload:
 #    runs-on: ubuntu-latest
