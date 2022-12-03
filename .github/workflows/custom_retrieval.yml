@@ -37,7 +37,7 @@ jobs:
           echo "EXISTS=${{ steps.tagExists.outputs.exists }}" >> $GITHUB_ENV
           echo Tag ${{ env.EXISTS }}
       - name: Exit Early if exists
-        if: ${{ env.EXISTS == "true" }}
+        if: ${{ env.EXISTS == true }}
         run: |
           echo exiting
           exit 0
