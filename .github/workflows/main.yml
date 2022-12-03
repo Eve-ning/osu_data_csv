@@ -41,7 +41,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
-          file: src/*
+          file: "**/*.py"
           asset_name: conf.rar
           release_name: ${{ env.FILE_TARGET }}
           tag: ${{ env.FILE_TARGET }}
