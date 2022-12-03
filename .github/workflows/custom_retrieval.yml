@@ -35,8 +35,9 @@ jobs:
       - name: Output tag exist check
         run: echo Tag ${{ steps.tagExists.outputs.exists }}
       - name: Exit Early if exists
-        if: ${{ steps.tagExists.outputs.exists }} == true
+        if: ${{ steps.tagExists.outputs.exists  == true }}
         run: |
+          echo exiting
           exit 0
       - name: Test if ran
         run: |
