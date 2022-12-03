@@ -15,7 +15,8 @@ def unzip_tar_bz2(fn_tar: Path):
 def zip_tar_bz2(fn_tar: Path, tar_target: Path, archive_name: str = 'csv'):
     """ Zips the directory """
     if fn_tar.exists():
-        print(f"{fn_tar} exists, skipping")
+        logging.info(f"{fn_tar} exists, skipping")
     else:
+        logging.info(f"Zipping to {fn_tar}")
         with tarfile.open(fn_tar, "w:gz") as tar:
             tar.add(tar_target, arcname=archive_name)
