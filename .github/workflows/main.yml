@@ -41,7 +41,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
-          file: "src/*.py"
+          file: src/*
 #          file: "data/*/csv.tar.gz"
           asset_name: conf.py
           release_name: ${{ env.FILE_TARGET }}
