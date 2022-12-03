@@ -12,7 +12,7 @@ jobs:
   #    if: ${{ github.event.label.name == '' }}
 
   download:
-    if: ${{false}}
+#    if: ${{false}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,28 +27,25 @@ jobs:
       - name: Python Download from https://data.ppy.sh
         run: |
           python main.py $FILE_TARGET
-      - name: Upload Artifact generated
-        uses: actions/upload-artifact@v3
-        with:
-          name: csv-artifact
-          path: "data/*/csv.tar.gz"
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Name Release Body
-        run: |
-          echo "{RELEASE_BODY}=Release for **${{ env.FILE_TARGET }}**" >> $GITHUB_ENV
+      #      - name: Upload Artifact generated
+      #        uses: actions/upload-artifact@v3
+      #        with:
+      #          name: csv-artifact
+      #          path: "data/*/csv.tar.gz"
+      #  release:
+      #    runs-on: ubuntu-latest
+      #    steps:
+      #      - uses: actions/checkout@v3
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: src/conf.py
+          file_glob: true
+          file: "data/*/csv.tar.gz"
           asset_name: conf.py
           release_name: ${{ env.FILE_TARGET }}
           tag: ${{ env.FILE_TARGET }}
           overwrite: true
-          body: ${{env.RELEASE_BODY}}
 #
 #  upload:
 #    runs-on: ubuntu-latest
