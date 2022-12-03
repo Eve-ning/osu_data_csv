@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Workspace
+        run: |
+          echo ${ GITHUB_WORKSPACE }
       - uses: actions/upload-artifact@v3
         with:
           name: csv-artifact
