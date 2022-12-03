@@ -41,10 +41,11 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: src/conf.py
-          asset_name: test_release
+          asset_name: conf.py
+          release_name: ${{ env.FILE_TARGET }}
           tag: ${{ env.FILE_TARGET }}
           overwrite: true
-          body: "Release for $FILE_TARGET"
+          body: "Release for ${env.FILE_TARGET}"
 #
 #  upload:
 #    runs-on: ubuntu-latest
