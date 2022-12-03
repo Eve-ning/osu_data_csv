@@ -1,7 +1,7 @@
 name: Upload files as Artifact
 
 
-on: [ workflow_dispatch ]
+on: [ pull_request ]
 #  pull_request:
 #    types: [ labeled ]
 
