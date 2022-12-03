@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     fn = sys.argv[1]
     # fn = "2022_10_01_performance_mania_top_1000"
-    fn_tar = fn + ".tar.bz"
+    fn_tar = fn + ".tar.bz2"
     fn_dir = DATA_DIR / fn
     fn_url = fr"https://data.ppy.sh/{fn_tar}"
 
