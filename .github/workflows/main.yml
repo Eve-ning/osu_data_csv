@@ -36,6 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Name Release Body
+        run: |
+          echo RELEASE_BODY=${{ env.FILE_TARGET }} >> $GITHUB_ENV
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -45,7 +48,7 @@ jobs:
           release_name: ${{ env.FILE_TARGET }}
           tag: ${{ env.FILE_TARGET }}
           overwrite: true
-          body: "Release for ${env.FILE_TARGET}"
+          body: ${{env.RELEASE_BODY}}
 #
 #  upload:
 #    runs-on: ubuntu-latest
