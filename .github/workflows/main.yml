@@ -42,8 +42,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
           file: src/*
-#          file: "data/*/csv.tar.gz"
-          asset_name: conf.py
+          asset_name: conf.rar
           release_name: ${{ env.FILE_TARGET }}
           tag: ${{ env.FILE_TARGET }}
           overwrite: true
