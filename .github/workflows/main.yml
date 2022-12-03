@@ -24,6 +24,7 @@ jobs:
         run: |
           python main.py
   upload-artifact:
+    needs: [download]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
