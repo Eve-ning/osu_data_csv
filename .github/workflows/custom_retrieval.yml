@@ -39,7 +39,7 @@ jobs:
         run: |
           echo Tag ${{ env.EXISTS }}
       - name: Exit Early if exists
-        if: ${{ env.EXISTS == true }}
+        if: ${{ env.EXISTS }}
         run: |
           echo exiting
           exit 0
