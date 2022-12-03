@@ -7,7 +7,7 @@ from typing import List, Tuple
 
 import numpy as np
 import pandas as pd
-import tqdm
+from tqdm import tqdm
 
 
 def csv_split(x):
@@ -33,7 +33,7 @@ def sql_to_df(sql_file: Path) -> Tuple[pd.DataFrame, List]:
         A converted DataFrame and a List of entries failed to convert due to mismatch in column size.
     """
     logging.info(f"Converting {sql_file.as_posix()} to DataFrame")
-    pbar = tqdm.tqdm(total=sql_file.stat().st_size, unit='B', unit_scale=True, unit_divisor=1024)
+    pbar = tqdm(total=sql_file.stat().st_size, unit='B', unit_scale=True, unit_divisor=1024)
 
     with open(sql_file, "rb") as f:
         line = b""
