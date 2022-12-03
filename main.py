@@ -24,7 +24,7 @@ if __name__ == '__main__':
         "osu_user_beatmap_playcount.sql"
     ]
 
-    for sql_name in tqdm(sql_names):
+    for sql_name in sql_names:
         fn_sql = fn_dir / sql_name
         fn_csv = fn_dir_csv / (sql_name[:-3] + "csv")
         if fn_csv.exists():
