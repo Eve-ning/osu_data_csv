@@ -6,9 +6,11 @@ from src.pipelines import download_pipeline, convert_pipeline
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
+    DATA_DIR.mkdir(exist_ok=True, parents=True)
+
     fn = sys.argv[1]
     # fn = "2022_10_01_performance_mania_top_1000"
-    fn_tar = fn + ".tar.bz2"
+    fn_tar = fn + ".tar.bz"
     fn_dir = DATA_DIR / fn
     fn_url = fr"https://data.ppy.sh/{fn_tar}"
 
