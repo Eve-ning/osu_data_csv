@@ -33,7 +33,7 @@ def sql_to_df(sql_file: Path) -> Tuple[pd.DataFrame, List]:
         A converted DataFrame and a List of entries failed to convert due to mismatch in column size.
     """
     logging.info(f"Converting {sql_file.as_posix()} to DataFrame")
-    pbar = tqdm(total=sql_file.stat().st_size, unit='B', unit_scale=True, unit_divisor=1024)
+    pbar = tqdm(total=sql_file.stat().st_size, unit='B', unit_scale=True, unit_divisor=1024, position=0, leave=True)
 
     with open(sql_file, "rb") as f:
         line = b""
@@ -63,7 +63,6 @@ def sql_to_df(sql_file: Path) -> Tuple[pd.DataFrame, List]:
 
         logging.debug(f"Inferred Column Data Types {col_info}")
 
-        logging.info(f"Parsing Data")
         # Parse all INSERT INTO statements.
         while not line.startswith(b"/*"):
             pbar.n = f.tell()
@@ -94,12 +93,16 @@ def sql_to_df(sql_file: Path) -> Tuple[pd.DataFrame, List]:
 
     data_good, data_bad = [], []
     n_cols = len(col_info)
-    for d in data:
+    for d in tqdm(data, desc="Filtering bad rows", position=0, leave=True):
         if len(d) == n_cols:
             data_good.append(d)
         else:
             data_bad.append(d)
+
+    logging.info(f"Writing to DataFrame")
     df = pd.DataFrame(data_good, columns=col_info.keys())
+
+    logging.info(f"Coercing DataFrame Types")
     df = df.astype(col_info, errors='ignore')
 
     # If there are entry failures, warn
