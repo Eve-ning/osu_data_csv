@@ -37,7 +37,6 @@ def download_pipeline(url: str, fn: Path, overwrite=False, cleanup=False):
 
     """
     if download_file(url, fn, overwrite):
-        logging.info(f"Unzipping files from {fn}")
         unzip_tar_bz2(fn)
         if cleanup:
             logging.info(f"Cleaning up file {fn}")
