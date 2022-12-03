@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: csv-artifact
-          path: ${{ env.GITHUB_WORKSPACE }}/data/2022_10_01_performance_mania_top_1000/csv.tar.gz
+          path: ${ GITHUB_WORKSPACE }/data/2022_10_01_performance_mania_top_1000/csv.tar.gz
 #
 #  upload:
 #    runs-on: ubuntu-latest
