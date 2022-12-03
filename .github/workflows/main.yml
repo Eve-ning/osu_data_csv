@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Name Release Body
         run: |
-          echo RELEASE_BODY=${{ env.FILE_TARGET }} >> $GITHUB_ENV
+          echo "{RELEASE_BODY}=Release for **${{ env.FILE_TARGET }}**" >> $GITHUB_ENV
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
