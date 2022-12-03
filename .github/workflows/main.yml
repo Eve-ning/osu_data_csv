@@ -33,6 +33,7 @@ jobs:
           name: csv-artifact
           path: "data/*/csv.tar.gz"
   release:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
