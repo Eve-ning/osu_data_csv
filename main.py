@@ -15,7 +15,9 @@ if __name__ == '__main__':
 
     sql_names = [
         "osu_user_stats_mania.sql",
-        "osu_user_beatmap_playcount.sql"
+        "osu_scores_mania_high.sql",
+        "osu_beatmap_difficulty.sql",
+        "osu_beatmaps.sql"
     ]
 
     download_pipeline(fn_url, DATA_DIR / fn_tar, sql_names=sql_names, overwrite=False, cleanup=False)
