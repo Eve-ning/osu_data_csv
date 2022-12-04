@@ -125,7 +125,7 @@ This will generate a few files. You'd want to retrieve the `.csv`.
 
 ## Sample Output
 
-![image](https://user-images.githubusercontent.com/26498608/205480002-630e7096-3b87-4941-9c76-bf6b30b08a5f.png)
+![image](https://user-images.githubusercontent.com/26498608/205480023-b6258b36-daba-4b59-820c-a4bee882fbbe.png)
 
 ## Sample Console Output
 
