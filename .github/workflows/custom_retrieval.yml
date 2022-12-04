@@ -29,32 +29,32 @@ jobs:
           (gsutil stat gs://data-ppy-sh-csv/data/${FILE_NAME}_csv.tar.gz) && true
           echo "EXISTS=$?" >> $GITHUB_ENV
 
-#      - uses: actions/checkout@v3
-#        if: env.EXISTS == 1
-#
-#      - name: Set up Python 3.8
-#        if: env.EXISTS == 1
-#        uses: actions/setup-python@v3
-#        with:
-#          python-version: "3.8"
-#
-#      - name: Install dependencies
-#        if: env.EXISTS == 1
-#        run: |
-#          python -m pip install --upgrade pip
-#          python -m pip install tables
-#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-#
-#      - name: Process data from https://data.ppy.sh with Python
-#        if: env.EXISTS == 1
-#        run: |
-#           python main_gh.py $FILE_NAME
-#
-#      - name: Deploy
-#        if: env.EXISTS == 1
-#        run: |
-#          mv data/$FILE_NAME/csv.tar.gz data/$FILE_NAME_csv.tar.gz
-#          gsutil -m mv -R data/$FILE_NAME_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
+      - uses: actions/checkout@v3
+        if: env.EXISTS == 1
+
+      - name: Set up Python 3.8
+        if: env.EXISTS == 1
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+
+      - name: Install dependencies
+        if: env.EXISTS == 1
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tables
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Process data from https://data.ppy.sh with Python
+        if: env.EXISTS == 1
+        run: |
+          python main_gh.py $FILE_NAME
+
+      - name: Deploy
+        if: env.EXISTS == 1
+        run: |
+          mv data/$FILE_NAME/csv.tar.gz data/$FILE_NAME_csv.tar.gz
+          gsutil -m mv -R data/$FILE_NAME_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
 #
 #      - name: Upload binaries to release
 #        if: env.EXISTS == 1
