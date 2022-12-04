@@ -28,7 +28,8 @@ ppy
 ```bash
 git clone https://github.com/Eve-ning/data_ppy_sh_to_csv.git
 cd data_ppy_sh_to_csv
-pip install -r requirements.txt
+python -m pip install tables
+python -m pip install -r requirements.txt
 ```
 
 2) Run the script
