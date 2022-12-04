@@ -3,45 +3,72 @@ name: Upload files to Release (Monthly)
 
 on:
   schedule:
-    - cron: "0 0 3 * *"
+    - cron: "0 0 5 * *"
 
 jobs:
-  download:
+  pipeline:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        mode: ["mania"]
-        fn_version: ["1000", "10000"]
+        mode: [ "mania" ]
+        set: [ "1000", "10000" ]
     steps:
+      - name: Setup - gcloud / gsutil
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_key: ${{ secrets.GCS_SA_KEY }}
+          project_id: ${{ secrets.GCS_PROJECT }}
+          export_default_credentials: true
+
       - name: Retrieve current dump target file name
         run: |
-          echo "FILE_NAME=$(date +'%Y_%m_01')_performance_${{matrix.mode}}_top_${{matrix.fn_version}}" >> $GITHUB_ENV
-          echo "Target File Name: ${{ env.FILE_NAME }}"
+          echo "FILE_NAME=$(date +'%Y_%m_01')_performance_${{matrix.mode}}_top_${{matrix.set}}" >> $GITHUB_ENV
+
+      - name: Check if file is already on Google Cloud
+        run: |
+          (gsutil -q stat gs://data-ppy-sh-csv/data/${FILE_NAME}_csv.tar.gz) && true
+          echo "EXISTS=$?" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
+        if: env.EXISTS == 1
 
       - name: Set up Python 3.8
+        if: env.EXISTS == 1
         uses: actions/setup-python@v3
         with:
           python-version: "3.8"
 
       - name: Install dependencies
+        if: env.EXISTS == 1
         run: |
           python -m pip install --upgrade pip
           python -m pip install tables
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Process data from https://data.ppy.sh with Python
+      - name: Set Env Vars for Scripts
         run: |
-          python main.py $FILE_NAME
+          echo "YYYY_MM=${{(date +'%Y_m')}}" >> $GITHUB_ENV
+          echo "MODE=${{matrix.mode}}" >> $GITHUB_ENV
+          echo "SET=${{matrix.set}}" >> $GITHUB_ENV
 
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file_glob: true
-          file: "data/**/csv.tar.gz"
-          release_name: ${{ env.FILE_NAME }}
-          tag: ${{ env.FILE_NAME }}
-          overwrite: true
+      - name: Process data from https://data.ppy.sh with Python
+        if: env.EXISTS == 1
+        run: |
+          python main.py -y ${YYYY_MM} -d ${MODE} -s ${SET} -l "data" -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" -c "N" -z "Y" -q "Y"
+
+      - name: Deploy
+        if: env.EXISTS == 1
+        run: |
+          mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME}_csv.tar.gz
+          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}/data/
+
+      #      - name: Upload binaries to release
+      #        uses: svenstaro/upload-release-action@v2
+      #        with:
+      #          repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #          file_glob: true
+      #          file: "data/**/csv.tar.gz"
+      #          release_name: ${{ env.FILE_NAME }}
+      #          tag: ${{ env.FILE_NAME }}
+      #          overwrite: true
