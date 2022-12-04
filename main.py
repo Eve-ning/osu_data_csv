@@ -8,9 +8,9 @@ from src.pipelines import pipeline
 
 default_sql_names = [
     "osu_user_stats_<MODE>.sql",
-    # "osu_scores_<MODE>_high.sql",
-    # "osu_beatmap_difficulty.sql",
-    # "osu_beatmaps.sql"
+    "osu_scores_<MODE>_high.sql",
+    "osu_beatmap_difficulty.sql",
+    "osu_beatmaps.sql"
 ]
 
 
@@ -50,9 +50,10 @@ def cli_input(year: str, month: str, mode: str, set: str, dl_dir: str,
         return
 
     print("Proceeding to Download ...")
-    pipeline(fn, dl_dir, sql_names,
-             cleanup=cleanup == 'Y',
-             zip_csv_files=zip_csv_files == 'Y')
+    print(locals())
+    # pipeline(fn, dl_dir, sql_names,
+    #          cleanup=cleanup == 'Y',
+    #          zip_csv_files=zip_csv_files == 'Y')
 
 
 if __name__ == '__main__':

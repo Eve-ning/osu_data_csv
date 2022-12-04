@@ -49,13 +49,22 @@ jobs:
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 1
         run: |
-          python main_gh.py $FILE_NAME
+          python main.py \ 
+            -y (date +'%Y') \
+            -m (date +'%m') \
+            -d mania \
+            -s 1000 \
+            -l data \
+            -n osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql
+            -c N \
+            -z Y \
+            -a Y
 
       - name: Deploy
         if: env.EXISTS == 1
         run: |
           mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME_}csv.tar.gz
-          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
+          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}/data
 
       #      - name: Upload binaries to release
       #        uses: svenstaro/upload-release-action@v2

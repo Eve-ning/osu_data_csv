@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [ "mania" ]
-        fn_version: [ "1000" ] #, "10000" ]
+        set: [ "1000" ] #, "10000" ]
         yyyy_mm: [ "2022_09", "2022_10", "2022_11" ]
     steps:
       - name: Setup - gcloud / gsutil
@@ -48,14 +48,26 @@ jobs:
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 1
         run: |
-          python main_gh.py $FILE_NAME
+          python main.py \ 
+            -y ${{matrix.yyyy_mm}} | cut -d'_' -f 1 \
+            -m ${{matrix.yyyy_mm}} | cut -d'_' -f 2 \
+            -d ${{matrix.mode}} \
+            -s ${{matrix.set}} \
+            -l data \
+            -n osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql
+            -c N \
+            -z Y \
+            -a Y
 
-      - name: Deploy
-        if: env.EXISTS == 1
-        run: |
-          mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME}_csv.tar.gz
-          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
-#
+#      - name: Deploy
+#        if: env.EXISTS == 1
+#        run: |
+#          mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME}_csv.tar.gz
+#          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
+
+
+
+
 #      - name: Upload binaries to release
 #        if: env.EXISTS == 1
 #        uses: svenstaro/upload-release-action@v2
