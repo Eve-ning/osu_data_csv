@@ -1,4 +1,5 @@
 import logging
+import warnings
 from datetime import datetime
 from pathlib import Path
 
@@ -10,7 +11,14 @@ default_sql_names = [
     "osu_user_stats_<MODE>.sql",
     "osu_scores_<MODE>_high.sql",
     "osu_beatmap_difficulty.sql",
-    "osu_beatmaps.sql"
+    "osu_beatmaps.sql",
+    "osu_beatmap_difficulty_attribs.sql",
+    "osu_beatmap_failtimes.sql",
+    "osu_beatmap_performance_blacklist.sql",
+    "osu_counts.sql",
+    "osu_difficulty_attribs.sql",
+    "osu_user_beatmap_playcount.sql",
+    "sample_users.sql",
 ]
 
 
@@ -20,9 +28,9 @@ default_sql_names = [
 @click.option('--mode', '-d', default="mania", prompt=f"-d: Dataset Mode")
 @click.option('--set', '-s', default="1000", prompt=f"-s: Dataset Top ____ (1000 or 10000)")
 @click.option('--dl_dir', '-l', default="data/", prompt=f"-l: Folder to download files to")
-@click.option('--sql_names', '-n', default=",".join(default_sql_names),
+@click.option('--sql_names', '-n', default=",".join(default_sql_names[:4]),
               prompt=f"-n: SQL Files to convert, separated by commas. <MODE> is substituted for --mode. "
-                     f"Convert all files if None")
+                     f"Convert all files if 'ALL'")
 @click.option('--cleanup', '-c', default="N",
               prompt=f"-c: Whether to cleans up downloaded tar.bz2 and sql files after execution (Y/N)")
 @click.option('--zip_csv_files', '-z', default="N",
@@ -32,12 +40,25 @@ def cli_input(year_month: str, mode: str, set: str, dl_dir: str,
               bypass_confirm: str, sql_names: str, cleanup: str, zip_csv_files: str):
     fn = f"{year_month}_01_performance_{mode}_top_{set}"
     dl_dir_abs = Path(dl_dir).absolute().as_posix()
-    sql_names = sql_names.replace("<MODE>", mode).split(",")
 
     print(f"Download Files: ")
     print(f"\t- {dl_dir_abs}/{fn}.tar.bz2")
     print(f"Derived Files: ")
     print(f"\t- {dl_dir_abs}/{fn}/___.sql (All SQL Files are extracted)")
+
+    if sql_names == 'ALL':
+        sql_names = default_sql_names
+    else:
+        sql_names = sql_names.split(",")
+    sql_names_bad = [sql_name for sql_name in sql_names if sql_name not in default_sql_names]
+
+    if sql_names_bad:
+        warnings.warn(f"sql_names {sql_names_bad} are not valid. Please check again.")
+        print("Aborting.")
+        return
+
+    sql_names = [s.replace("<MODE>", mode) for s in sql_names]
+
     for sql_name in sql_names:
         print(f"\t- {dl_dir_abs}/{fn}/csv/{sql_name[:-4]}.csv")
 
@@ -46,7 +67,7 @@ def cli_input(year_month: str, mode: str, set: str, dl_dir: str,
     else:
         agree = input("Proceed to Download & Process Files [Y]/n: ") or "Y"
     if agree.upper() != 'Y':
-        print("Abort!")
+        print("Aborting.")
         return
 
     print("Proceeding to Download ...")
