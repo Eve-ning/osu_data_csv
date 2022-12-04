@@ -53,15 +53,7 @@ jobs:
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 1
         run: |
-          python main.py 
-            -y ${YYYY_MM} \
-            -d mania \
-            -s 1000 \
-            -l data \
-            -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" \
-            -c N \
-            -z Y \
-            -a Y
+          python main.py -y ${YYYY_MM} -d "mania" -s "1000" -l "data" -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" -c "N" -z "Y" -q "Y"
 
       - name: Deploy
         if: env.EXISTS == 1
