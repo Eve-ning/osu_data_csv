@@ -1,3 +1,4 @@
+[![Upload files to Release (Monthly)](https://github.com/Eve-ning/data_ppy_sh_to_csv/actions/workflows/monthly_retrieval.yml/badge.svg)](https://github.com/Eve-ning/data_ppy_sh_to_csv/actions/workflows/monthly_retrieval.yml)
 # Data PPY CSV Retrieval
 
 Retrieve data from the data ppy dump as CSV files.
