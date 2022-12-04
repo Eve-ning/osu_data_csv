@@ -48,8 +48,8 @@ jobs:
       - name: Set Env Vars for Scripts
         run: |
           echo "YYYY_MM=${{matrix.yyyy_mm}}" >> $GITHUB_ENV
-          echo "MODE=${{matrix.mode}} >> $GITHUB_ENV
-          echo "SET=${{matrix.set}} >> $GITHUB_ENV
+          echo "MODE=${{matrix.mode}}" >> $GITHUB_ENV
+          echo "SET=${{matrix.set}}" >> $GITHUB_ENV
 
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 1

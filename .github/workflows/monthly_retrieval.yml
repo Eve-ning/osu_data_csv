@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [ "mania" ]
-        fn_version: [ "1000", "10000" ]
+        set: [ "1000", "10000" ]
     steps:
       - name: Setup - gcloud / gsutil
         uses: google-github-actions/setup-gcloud@v0
@@ -49,11 +49,13 @@ jobs:
       - name: Set Env Vars for Scripts
         run: |
           echo "YYYY_MM=${{(date +'%Y_m')}} >> $GITHUB_ENV
+          echo "MODE=${{matrix.mode}}" >> $GITHUB_ENV
+          echo "SET=${{matrix.set}}" >> $GITHUB_ENV
 
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 1
         run: |
-          python main.py -y ${YYYY_MM} -d "mania" -s "1000" -l "data" -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" -c "N" -z "Y" -q "Y"
+          python main.py -y ${YYYY_MM} -d ${MODE} -s ${SET} -l "data" -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" -c "N" -z "Y" -q "Y"
 
       - name: Deploy
         if: env.EXISTS == 1
