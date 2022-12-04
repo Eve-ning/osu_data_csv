@@ -4,6 +4,8 @@ from pathlib import Path
 
 import click
 
+from src.pipelines import pipeline
+
 default_sql_names = [
     "osu_user_stats_<MODE>.sql",
     "osu_scores_<MODE>_high.sql",
@@ -48,10 +50,9 @@ def cli_input(year_month: str, mode: str, set: str, dl_dir: str,
         return
 
     print("Proceeding to Download ...")
-    print(locals())
-    # pipeline(fn, dl_dir, sql_names,
-    #          cleanup=cleanup == 'Y',
-    #          zip_csv_files=zip_csv_files == 'Y')
+    pipeline(fn, dl_dir, sql_names,
+             cleanup=cleanup == 'Y',
+             zip_csv_files=zip_csv_files == 'Y')
 
 
 if __name__ == '__main__':
