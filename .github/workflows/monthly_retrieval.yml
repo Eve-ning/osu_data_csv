@@ -1,47 +1,76 @@
 name: Upload files to Release (Monthly)
 
 
-on:
-  schedule:
-    - cron: "0 0 3 * *"
+on: [ pull_request ]
+#  schedule:
+#    - cron: "0 0 3 * *"
 
 jobs:
-  download:
+  pipeline:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        mode: ["mania"]
-        fn_version: ["1000", "10000"]
+        mode: [ "mania" ]
+        fn_version: [ "1000", "10000" ]
     steps:
+      - name: Setup - gcloud / gsutil
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_key: ${{ secrets.GCS_SA_KEY }}
+          project_id: ${{ secrets.GCS_PROJECT }}
+          export_default_credentials: true
+
       - name: Retrieve current dump target file name
         run: |
           echo "FILE_NAME=$(date +'%Y_%m_01')_performance_${{matrix.mode}}_top_${{matrix.fn_version}}" >> $GITHUB_ENV
           echo "Target File Name: ${{ env.FILE_NAME }}"
 
-      - uses: actions/checkout@v3
 
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.8"
-
-      - name: Install dependencies
+      - name: Check if file is already on Google Cloud
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install tables
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          gsutil -q stat $env.FILE_NAME
+          echo "EXISTS=$?" >> $GITHUB_ENV
 
-      - name: Process data from https://data.ppy.sh with Python
+      - name:
+          run:
+            echo "Exists ${{env.EXISTS}}"
+
+      - name: Check if file is already on Google Cloud
         run: |
-          python main_gh.py $FILE_NAME
+          gsutil -q stat $env.FILE_NAME
+          echo "EXISTS=$?" >> $GITHUB_ENV
 
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file_glob: true
-          file: "data/**/csv.tar.gz"
-          release_name: ${{ env.FILE_NAME }}
-          tag: ${{ env.FILE_NAME }}
-          overwrite: true
+      - name:
+          run:
+            echo "Exists ${{env.EXISTS}}"
+#
+#      - uses: actions/checkout@v3
+#
+#      - name: Set up Python 3.8
+#        uses: actions/setup-python@v3
+#        with:
+#          python-version: "3.8"
+#
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          python -m pip install tables
+#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#
+#      - name: Process data from https://data.ppy.sh with Python
+#        run: |
+#          python main_gh.py $FILE_NAME
+#
+#      - name: Upload binaries to release
+#        uses: svenstaro/upload-release-action@v2
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          file_glob: true
+#          file: "data/**/csv.tar.gz"
+#          release_name: ${{ env.FILE_NAME }}
+#          tag: ${{ env.FILE_NAME }}
+#          overwrite: true
+#      - name: Deploy
+#        run: |-
+#          gsutil -m mv -R data/ gs://${{ secrets.GCS_BUCKET }}
