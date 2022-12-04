@@ -47,8 +47,7 @@ jobs:
 
       - name: Set Env Vars for Scripts
         run: |
-          echo "YYYY=${{matrix.yyyy_mm | cut -d'_' -f 1}}" >> $GITHUB_ENV
-          echo "MM=${{matrix.yyyy_mm | cut -d'_' -f 2}}" >> $GITHUB_ENV
+          echo "YYYY_MM=${{matrix.yyyy_mm}}" >> $GITHUB_ENV
           echo "MODE=${{matrix.mode}} >> $GITHUB_ENV
           echo "SET=${{matrix.set}} >> $GITHUB_ENV
 
@@ -56,8 +55,7 @@ jobs:
         if: env.EXISTS == 1
         run: |
           python main.py \ 
-            -y ${YYYY} \
-            -m ${MM} \
+            -y ${YYYY_MM} \
             -d ${MODE} \
             -s ${SET} \
             -l data \
