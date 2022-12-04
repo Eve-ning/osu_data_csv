@@ -1,7 +1,7 @@
 name: Upload files to Release (Custom)
 
 
-on: [ pull_request ] # workflow_dispatch
+on: [ workflow_dispatch ] # workflow_dispatch
 
 
 jobs:
