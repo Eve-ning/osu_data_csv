@@ -48,7 +48,7 @@ jobs:
 
       - name: Set Env Vars for Scripts
         run: |
-          echo "YYYY_MM=${{(date +'%Y_m')}} >> $GITHUB_ENV
+          echo "YYYY_MM=${{(date +'%Y_m')}}" >> $GITHUB_ENV
           echo "MODE=${{matrix.mode}}" >> $GITHUB_ENV
           echo "SET=${{matrix.set}}" >> $GITHUB_ENV
 
