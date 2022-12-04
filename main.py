@@ -36,8 +36,8 @@ default_sql_names = [
 @click.option('--zip_csv_files', '-z', default="N",
               prompt=f"-c: Whether to zip the csv files in a tar.bz2 after conversion (Y/N)")
 @click.option('--bypass_confirm', '-q', default="N")
-def cli_input(year_month: str, mode: str, set: str, dl_dir: str,
-              bypass_confirm: str, sql_names: str, cleanup: str, zip_csv_files: str):
+def get_dataset(year_month: str, mode: str, set: str, dl_dir: str,
+                bypass_confirm: str, sql_names: str, cleanup: str, zip_csv_files: str):
     fn = f"{year_month}_01_performance_{mode}_top_{set}"
     dl_dir_abs = Path(dl_dir).absolute().as_posix()
 
@@ -78,4 +78,4 @@ def cli_input(year_month: str, mode: str, set: str, dl_dir: str,
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    cli_input()
+    get_dataset()
