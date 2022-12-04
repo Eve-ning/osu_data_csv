@@ -32,18 +32,27 @@ jobs:
           gsutil -q stat $env.FILE_NAME
           echo "EXISTS=$?" >> $GITHUB_ENV
 
-      - name:
-          run:
-            echo "Exists ${{env.EXISTS}}"
+      - name: Echo
+        run: |
+          echo "Exists ${{env.EXISTS}}"
 
       - name: Check if file is already on Google Cloud
         run: |
-          gsutil -q stat $env.FILE_NAME
-          echo "EXISTS=$?" >> $GITHUB_ENV
+          gsutil -q stat gs://data-ppy-sh-csv/conf2.py
+          echo "EXISTS_1=$?" >> $GITHUB_ENV
 
-      - name:
-          run:
-            echo "Exists ${{env.EXISTS}}"
+      - name: Echo (FALSE)
+        run: |
+          echo "Exists ${{env.EXISTS_1}}"
+
+      - name: Check if file is already on Google Cloud
+        run: |
+          gsutil -q stat gs://data-ppy-sh-csv/conf.py
+          echo "EXISTS_2=$?" >> $GITHUB_ENV
+
+      - name: Echo (TRUE)
+        run: |
+          echo "Exists ${{env.EXISTS_2}}"
 #
 #      - uses: actions/checkout@v3
 #
