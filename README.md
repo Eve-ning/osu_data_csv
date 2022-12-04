@@ -123,7 +123,11 @@ This will generate a few files. You'd want to retrieve the `.csv`.
 
 # Appendix
 
-## Sample output
+## Sample Output
+
+![image](https://user-images.githubusercontent.com/26498608/205480002-630e7096-3b87-4941-9c76-bf6b30b08a5f.png)
+
+## Sample Console Output
 
 ```
 C:\...\data_ppy_sh_to_csv>python main.py
