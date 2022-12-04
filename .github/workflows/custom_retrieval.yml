@@ -61,7 +61,7 @@ jobs:
             -d ${MODE} \
             -s ${SET} \
             -l data \
-            -n osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql
+            -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql"
             -c N \
             -z Y \
             -a Y
