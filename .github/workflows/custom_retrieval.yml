@@ -60,7 +60,7 @@ jobs:
         if: env.EXISTS == 1
         run: |
           mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME}_csv.tar.gz
-          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}/data
+          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}/data/
 
 
 
