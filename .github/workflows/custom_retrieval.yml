@@ -26,7 +26,7 @@ jobs:
 
       - name: Check if file is already on Google Cloud
         run: |
-          (gsutil stat gs://data-ppy-sh-csv/data/$FILE_NAME _csv.tar.gz) && true
+          (gsutil stat gs://data-ppy-sh-csv/data/${FILE_NAME}_csv.tar.gz) && true
           echo "EXISTS=$?" >> $GITHUB_ENV
 
 #      - uses: actions/checkout@v3
