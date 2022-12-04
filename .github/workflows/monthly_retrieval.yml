@@ -55,12 +55,12 @@ jobs:
         if: env.EXISTS == 1
         run: |
           python main.py 
-            -y ${YYYY}
-            -m ${MM}
-            -d mania
-            -s 1000
-            -l data
-            -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql"
+            -y ${YYYY} \
+            -m ${MM} \
+            -d mania \
+            -s 1000 \
+            -l data \
+            -n "osu_user_stats_<MODE>.sql,osu_scores_<MODE>_high.sql,osu_beatmap_difficulty.sql,osu_beatmaps.sql" \
             -c N \
             -z Y \
             -a Y
