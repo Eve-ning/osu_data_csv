@@ -24,11 +24,21 @@ ppy
 
 ## Executing the Script
 
-Clone this repository and run `main.py` via `python main.py`.
+1) Set up
+```bash
+git clone https://github.com/Eve-ning/data_ppy_sh_to_csv.git
+cd data_ppy_sh_to_csv
+pip install -r requirements.txt
+```
+
+2) Run the script
+```bash
+python main.py
+```
 
 A series of prompts should show up.
 
-You may also run in a single command
+2) (Alternatively) run in a single command
 
 ```bash
 python main.py \
@@ -44,6 +54,7 @@ python main.py \
 ```
 
 ## Arguments
+
 | Option           | Option (Shorthand) | Desc.                                                                  | Example                                      |
 |------------------|--------------------|------------------------------------------------------------------------|----------------------------------------------|
 | --year_month     | -y                 | Dataset Year and Month. Will fail if doesn't exist anymore             | `2022_10`                                    |
