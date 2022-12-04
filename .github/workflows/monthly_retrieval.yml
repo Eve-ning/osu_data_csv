@@ -27,7 +27,7 @@ jobs:
 
       - name: Check if file is already on Google Cloud
         run: |
-          (gsutil -q stat gs://data-ppy-sh-csv/data/$FILE_NAME_csv.tar.gz) && true
+          (gsutil -q stat gs://data-ppy-sh-csv/data/${FILE_NAME}_csv.tar.gz) && true
           echo "EXISTS=$?" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
@@ -54,8 +54,8 @@ jobs:
       - name: Deploy
         if: env.EXISTS == 1
         run: |
-          mv data/$FILE_NAME/csv.tar.gz data/$FILE_NAME_csv.tar.gz
-          gsutil -m mv -R data/$FILE_NAME_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
+          mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME_}csv.tar.gz
+          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
 
       #      - name: Upload binaries to release
       #        uses: svenstaro/upload-release-action@v2
