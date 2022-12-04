@@ -47,8 +47,8 @@ jobs:
 
       - name: Set Env Vars for Scripts
         run: |
-          echo "YYYY=${{matrix.yyyy_mm}} | cut -d'_' -f 1" >> $GITHUB_ENV
-          echo "MM=${{matrix.yyyy_mm}} | cut -d'_' -f 2" >> $GITHUB_ENV
+          echo "YYYY=${{matrix.yyyy_mm | cut -d'_' -f 1}}" >> $GITHUB_ENV
+          echo "MM=${{matrix.yyyy_mm | cut -d'_' -f 2}}" >> $GITHUB_ENV
           echo "MODE=${{matrix.mode}} >> $GITHUB_ENV
           echo "SET=${{matrix.set}} >> $GITHUB_ENV
 
@@ -66,11 +66,12 @@ jobs:
             -z Y \
             -a Y
 
-#      - name: Deploy
-#        if: env.EXISTS == 1
-#        run: |
+      - name: Deploy
+        if: env.EXISTS == 1
+        run: |
 #          mv data/${FILE_NAME}/csv.tar.gz data/${FILE_NAME}_csv.tar.gz
 #          gsutil -m mv -R data/${FILE_NAME}_csv.tar.gz gs://${{ secrets.GCS_BUCKET }}
+          gsutil -m mv -R src/conf gs://${{ secrets.GCS_BUCKET }}/src/
 
 
 
