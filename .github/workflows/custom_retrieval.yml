@@ -48,7 +48,7 @@ jobs:
       - name: Process data from https://data.ppy.sh with Python
         if: env.EXISTS == 'false'
         run: |
-           python main.py $FILE_NAME
+           python main_gh.py $FILE_NAME
 
       - name: Upload binaries to release
         if: env.EXISTS == 'false'
