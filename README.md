@@ -56,7 +56,9 @@ python main.py \
 
 ### SQL Names
 
-> :information_source: Note: `<MODE>` is substituted for the input in `--mode` / `d`
+> :information_source: `<MODE>` is substituted for the input in `--mode` / `d`
+
+> :exclamation: `osu_beatmapsets.sql`'s conversion is not stable due to binary blobs. I recommend excluding it.
 
 Possible SQL file names are:
 
