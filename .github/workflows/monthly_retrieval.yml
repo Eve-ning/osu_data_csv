@@ -26,7 +26,7 @@ jobs:
           echo "FILE_NAME=$(date +'%Y_%m_01')_performance_${{matrix.mode}}_top_${{matrix.fn_version}}" >> $GITHUB_ENV
       - name: Check if file is already on Google Cloud
         run: |
-          gsutil -q stat gs://data-ppy-sh-csv/$env.FILE_NAME
+          gsutil -q stat gs://data-ppy-sh-csv/$FILE_NAME
           echo "EXISTS=$?" >> $GITHUB_ENV
 
       - name: Echo
