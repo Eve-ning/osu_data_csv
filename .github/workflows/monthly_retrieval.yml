@@ -21,9 +21,13 @@ jobs:
           project_id: ${{ secrets.GCS_PROJECT }}
           export_default_credentials: true
 
+      - name: Retrieve current YYYY_MM
+        run: |
+          echo "YYYY_MM::$(date +'%Y_%m)" >> $GITHUB_ENV
+
       - name: Retrieve current dump target file name
         run: |
-          echo "FILE_NAME=${{(date +'%Y_%m_01')}}_performance_${{matrix.mode}}_top_${{matrix.set}}" >> $GITHUB_ENV
+          echo "FILE_NAME=${YYYY_MM}_performance_${{matrix.mode}}_top_${{matrix.set}}" >> $GITHUB_ENV
 
 #      - name: Check if file is already on Google Cloud
 #        run: |
