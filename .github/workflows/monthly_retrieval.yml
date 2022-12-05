@@ -23,7 +23,7 @@ jobs:
 
       - name: Retrieve current YYYY_MM
         run: |
-          echo "YYYY_MM::$(date +'%Y_%m')" >> $GITHUB_ENV
+          echo "YYYY_MM=$(date +'%Y_%m')" >> $GITHUB_ENV
 
       - name: Retrieve current dump target file name
         run: |
