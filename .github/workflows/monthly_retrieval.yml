@@ -29,6 +29,10 @@ jobs:
         run: |
           echo "FILE_NAME=${YYYY_MM}_performance_${{matrix.mode}}_top_${{matrix.set}}" >> $GITHUB_ENV
 
+      - name: (DEBUG) echo file name
+        run: |
+          echo $FILE_NAME
+
 #      - name: Check if file is already on Google Cloud
 #        run: |
 #          (gsutil -q stat gs://data-ppy-sh-csv/data/${FILE_NAME}_csv.tar.gz) && true
