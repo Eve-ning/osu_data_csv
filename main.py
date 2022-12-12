@@ -83,4 +83,4 @@ def get_dataset_click(year_month: str, mode: str, set: str, dl_dir: str,
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    get_dataset()
+    get_dataset_click()
