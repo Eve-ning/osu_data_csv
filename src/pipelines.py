@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 from typing import List
 
+from src.conf import FILE_CONFIGS
 from src.download import download_file
 from src.parse_sql import parse_sql_file
 from src.tarbz2 import unzip_tar_bz2
@@ -28,10 +29,14 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, sql_names: List[str] | No
         tar_dir: Directory of the SQLs to convert
         csv_dir: Directory of CSV output
         sql_names: SQL file names to convert
-
     """
     if sql_names is None:
-        sql_names = [p.name for p in tar_dir.glob("*.sql")]
+        sql_names = {p.name for p in tar_dir.glob("*.sql")}
+
+    sql_names = sql_names.intersection(FILE_CONFIGS)
+
+    if len(sql_names) == 0:
+        raise FileNotFoundError("SQL Files not found. Did you spell them correctly?")
 
     for sql_name in sql_names:
         sql_file = tar_dir / sql_name
