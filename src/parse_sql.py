@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
-from src.conf import FILE_CONFIGS
+from src.conf import get_file_configs
 
 non_int = re.compile(r'[^\d]+')
 non_float = re.compile(r'[^\d.]+')
@@ -48,6 +48,7 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
                     token = non_datetime.sub('', token)
             if token == 'NULL':
                 token = ''
+
             record.append(token_type(token) if token else None)
 
         token_ix += 1
@@ -61,10 +62,9 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
     return df
 
 
-def parse_sql_file(fp: Path, csv_output_path: Path):
-
+def parse_sql_file(fp: Path, csv_output_path: Path, mode: str):
     for e, tokens in tqdm(enumerate(read_sql_tokens(fp)), desc=f"Parsing {fp.stem}"):
-        df = parse_sql_tokens(tokens, FILE_CONFIGS[fp.name])
+        df = parse_sql_tokens(tokens, get_file_configs(mode)[fp.name])
 
         if e == 0:
             df.to_csv(csv_output_path.as_posix(), header=True, index=False)
