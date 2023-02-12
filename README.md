@@ -34,7 +34,7 @@ python -m pip install -r requirements.txt
 
 2) Run the script
 ```bash
-python main.py
+python osu_data_csv/main.py
 ```
 
 A series of prompts should show up.
@@ -42,7 +42,7 @@ A series of prompts should show up.
 2) (Alternatively) run in a single command
 
 ```bash
-python main.py \
+python osu_data_csv/main.py \
   -y "2022_12" \
   -d "mania" \
   -s "1000" \
