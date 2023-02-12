@@ -4,7 +4,7 @@ from pathlib import Path
 
 import click
 
-from src.pipelines import pipeline
+from .pipelines import pipeline
 
 
 def get_dataset(year_month: str, mode: str, set: str, dl_dir: str,
