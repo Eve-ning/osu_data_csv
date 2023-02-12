@@ -1,5 +1,4 @@
 import logging
-import warnings
 from datetime import datetime
 from pathlib import Path
 
@@ -17,7 +16,6 @@ def get_dataset(year_month: str, mode: str, set: str, dl_dir: str,
     print(f"\t- {dl_dir_abs}/{fn}.tar.bz2")
     print(f"Derived Files: ")
     print(f"\t- {dl_dir_abs}/{fn}/___.sql (All SQL Files are extracted)")
-
 
     if bypass_confirm == "Y":
         agree = "Y"
