@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import List
 
-from conf import get_file_configs
-from download import download_file
-from parse_sql import parse_sql_file
-from tarbz2 import unzip_tar_bz2
+from .conf import get_file_configs
+from .download import download_file
+from .parse_sql import parse_sql_file
+from .tarbz2 import unzip_tar_bz2
 
 
 def download_pipeline(url: str, fn_tar: Path, mode: str):

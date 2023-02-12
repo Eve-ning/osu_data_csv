@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
-from conf import get_file_configs
+from .conf import get_file_configs
 
 
 def read_sql_tokens(sql_path: Path):
