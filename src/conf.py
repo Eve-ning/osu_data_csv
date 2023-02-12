@@ -5,6 +5,11 @@ DATA_DIR = Path(__file__).parents[1] / "data"
 
 
 def get_file_configs(mode: str):
+    """ Retrieves the File Configuration for a particular mode
+
+    Notes:
+        This can be easily outdated due to the ever-changing database schema
+    """
     return {
         "osu_beatmap_difficulty.sql":
             [

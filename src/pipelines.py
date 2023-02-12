@@ -28,7 +28,6 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mode: str):
     Args:
         tar_dir: Directory of the SQLs to convert
         csv_dir: Directory of CSV output
-        sql_names: SQL file names to convert
     """
     for sql_name in get_file_configs(mode=mode).keys():
         sql_file = tar_dir / sql_name
