@@ -10,7 +10,7 @@ from src.parse_sql import parse_sql_file
 from src.tarbz2 import unzip_tar_bz2
 
 
-def download_pipeline(url: str, fn_tar: Path):
+def download_pipeline(url: str, fn_tar: Path, mode: str):
     """ Downloads the database files
 
     Args:
@@ -19,10 +19,10 @@ def download_pipeline(url: str, fn_tar: Path):
 
     """
     if download_file(url, fn_tar):
-        unzip_tar_bz2(fn_tar)
+        unzip_tar_bz2(fn_tar, mode)
 
 
-def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, sql_names: List[str] | None):
+def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mode: str):
     """ Converts the sql files to csvs and
 
     Args:
@@ -37,12 +37,11 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, sql_names: List[str] | No
             logging.info(f"{csv_file} exists, skipping")
             continue
         logging.info(f"Converting {sql_file}")
-        parse_sql_file(sql_file, csv_file)
+        parse_sql_file(sql_file, csv_file, mode=mode)
 
 
 def pipeline(fn: str, dl_dir: str,
-             sql_names: List[str] | None,
-             cleanup: bool):
+             cleanup: bool, mode: str):
     dl_dir = Path(dl_dir)
     tar_name = fn + ".tar.bz2"
     tar_dir = dl_dir / fn
@@ -51,8 +50,8 @@ def pipeline(fn: str, dl_dir: str,
     csv_dir.mkdir(parents=True, exist_ok=True)
     tar_url = fr"https://data.ppy.sh/{tar_name}"
 
-    download_pipeline(tar_url, tar_file)
-    convert_pipeline_csv(tar_dir, csv_dir=csv_dir, sql_names=sql_names)
+    download_pipeline(tar_url, tar_file, mode=mode)
+    convert_pipeline_csv(tar_dir, csv_dir=csv_dir, mode=mode)
 
     if cleanup:
         logging.info("Cleaning Up & Removing Files...")
