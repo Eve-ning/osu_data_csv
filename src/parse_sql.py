@@ -19,6 +19,11 @@ def read_sql_tokens(path: Path):
         while not line.startswith("INSERT"):
             line = f.readline()
 
+        pbar = tqdm(total=path.stat().st_size, unit='B', unit_scale=True,
+                    unit_divisor=1024, position=0, leave=False)
+        pbar.n = f.tell()
+        pbar.refresh()
+
         while f and (not line.startswith("/*")):
             reader = csv.reader([line], delimiter=",", quotechar="'", escapechar="\\")
 
@@ -26,6 +31,11 @@ def read_sql_tokens(path: Path):
             tokens[0] = "(" + tokens[0].split("(")[-1]
             yield tokens
             line = f.readline()
+            pbar.n = f.tell()
+            pbar.refresh()
+
+        pbar.n = pbar.total
+        pbar.refresh()
 
 
 def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
