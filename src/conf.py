@@ -4,27 +4,13 @@ from pathlib import Path
 DATA_DIR = Path(__file__).parents[1] / "data"
 
 FILE_CONFIGS = {
-    "osu_scores_mania_high.sql":
+    "osu_beatmap_difficulty.sql":
         [
-            ('score_id', int, True),
             ('beatmap_id', int, True),
-            ('user_id', int, True),
-            ('score', int, True),
-            ('maxcombo', int, False),
-            ('rank', str, False),
-            ('count50', int, True),
-            ('count100', int, True),
-            ('count300', int, True),
-            ('countmiss', int, True),
-            ('countgeki', int, True),
-            ('countkatu', int, True),
-            ('perfect', int, False),
-            ('enabled_mods', int, True),
-            ('date', datetime.fromisoformat, True),
-            ('pp', float, True),
-            ('replay', int, True),
-            ('hidden', int, False),
-            ('country_acronym', str, False),
+            ('mode', int, True),
+            ('mods', int, True),
+            ('diff_unified', float, True),
+            ('last_update', datetime.fromisoformat, True)
         ],
     "osu_beatmaps.sql":
         [
@@ -55,13 +41,27 @@ FILE_CONFIGS = {
             ('deleted_at', datetime.fromisoformat, False),
             ('bpm', float, True),
         ],
-    "osu_beatmap_difficulty.sql":
+    "osu_scores_mania_high.sql":
         [
+            ('score_id', int, True),
             ('beatmap_id', int, True),
-            ('mode', int, True),
-            ('mods', int, True),
-            ('diff_unified', float, True),
-            ('last_update', datetime.fromisoformat, True)
+            ('user_id', int, True),
+            ('score', int, True),
+            ('maxcombo', int, False),
+            ('rank', str, False),
+            ('count50', int, True),
+            ('count100', int, True),
+            ('count300', int, True),
+            ('countmiss', int, True),
+            ('countgeki', int, True),
+            ('countkatu', int, True),
+            ('perfect', int, False),
+            ('enabled_mods', int, True),
+            ('date', datetime.fromisoformat, True),
+            ('pp', float, True),
+            ('replay', int, True),
+            ('hidden', int, False),
+            ('country_acronym', str, False),
         ],
     "osu_user_stats_mania.sql":
         [
