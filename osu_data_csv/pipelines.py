@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from .conf import get_file_configs
+from .conf import get_mapping
 from .download import download_file
 from .parse_sql import parse_sql_file
 from .tarbz2 import unzip_tar_bz2
@@ -28,7 +28,7 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mode: str):
         tar_dir: Directory of the SQLs to convert
         csv_dir: Directory of CSV output
     """
-    for sql_name in get_file_configs(mode=mode).keys():
+    for sql_name in get_mapping(mode=mode).keys():
         sql_file = tar_dir / sql_name
         csv_file = csv_dir / (sql_name[:-3] + "csv")
         if csv_file.exists():
