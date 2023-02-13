@@ -23,7 +23,7 @@ ppy
 
 ## Downloading & Converting
 
-1) `pip install osu_data_csv`
+1) `pip install osu-data-csv`
 2) run `osu-data-csv` in the terminal
 ```bash
 osu-data-csv
