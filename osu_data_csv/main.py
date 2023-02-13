@@ -42,6 +42,10 @@ def get_dataset_click(year_month: str, mode: str, set: str, dl_dir: str, bypass_
     get_dataset(year_month, mode, set, dl_dir, bypass_confirm, cleanup)
 
 
-if __name__ == '__main__':
+def main():
     logging.getLogger().setLevel(logging.INFO)
     get_dataset_click()
+
+
+if __name__ == '__main__':
+    main()
