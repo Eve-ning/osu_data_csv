@@ -21,4 +21,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-osu_data_csv = "osu_data_csv.main:__main__"
+osu_data_csv = "osu_data_csv.main:main"
