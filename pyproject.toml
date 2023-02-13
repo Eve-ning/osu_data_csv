@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "osu-data-csv"
+version = "0.1.1"
+description = "Downloads, the converts the .sql from data.ppy.sh into .csvs"
+authors = ["Eve-ning <dev_evening@hotmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "osu_data_csv"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+tqdm = "^4.64.1"
+pandas = "^1.5.3"
+numpy = "^1.24.2"
+wget = "^3.2"
+click = "^8.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+osu-data-csv = "osu_data_csv.main:main"

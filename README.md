@@ -1,4 +1,3 @@
-[![Upload files to Release (Monthly)](https://github.com/Eve-ning/data_ppy_sh_to_csv/actions/workflows/monthly_retrieval.yml/badge.svg)](https://github.com/Eve-ning/data_ppy_sh_to_csv/actions/workflows/monthly_retrieval.yml)
 # Data PPY CSV Retrieval
 
 Retrieve data from the data ppy dump as CSV files.
@@ -22,19 +21,12 @@ Thanks,
 ppy
 ```
 
-## Executing the Script
+## Downloading & Converting
 
-1) Set up
+1) `pip install osu-data-csv`
+2) run `osu-data-csv` in the terminal
 ```bash
-git clone https://github.com/Eve-ning/data_ppy_sh_to_csv.git
-cd data_ppy_sh_to_csv
-python -m pip install tables
-python -m pip install -r requirements.txt
-```
-
-2) Run the script
-```bash
-python main.py
+osu-data-csv
 ```
 
 A series of prompts should show up.
@@ -42,11 +34,11 @@ A series of prompts should show up.
 2) (Alternatively) run in a single command
 
 ```bash
-python main.py \
+osu-data-csv \
   -y "2022_12" \
   -d "mania" \
   -s "1000" \
-  -l "data" \
+  -l "data/" \
   -c "N" \
   -q "Y"
 ```
@@ -61,8 +53,6 @@ python main.py \
 | --dl_dir         | -l                 | Directory to download to. Best if empty. Can be not created.           | `data/`                                      |
 | --cleanup        | -c                 | Whether to delete unused files after conversion. ['Y', 'N']            | `N`                                          |
 | --bypass_confirm | -q                 | Whether to bypass confirmation of downloaded and new files. ['Y', 'N'] | `N`                                          |
-
-### SQL Names
 
 It's set to retrieve the following:
 

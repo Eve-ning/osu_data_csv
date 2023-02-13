@@ -3,6 +3,12 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parents[1] / "data"
 
+mode_mapping = {
+    'osu': '',
+    'taiko': '_taiko',
+    'catch': '_fruits',
+    'mania': '_mania',
+}
 
 def get_file_configs(mode: str):
     """ Retrieves the File Configuration for a particular mode
@@ -10,6 +16,7 @@ def get_file_configs(mode: str):
     Notes:
         This can be easily outdated due to the ever-changing database schema
     """
+    mode = mode_mapping[mode]
     return {
         "osu_beatmap_difficulty.sql":
             [
@@ -48,7 +55,7 @@ def get_file_configs(mode: str):
                 ('deleted_at', datetime.fromisoformat, False),
                 ('bpm', float, True),
             ],
-        f"osu_scores_{mode}_high.sql":
+        f"osu_scores{mode}_high.sql":
             [
                 ('score_id', int, True),
                 ('beatmap_id', int, True),
@@ -70,7 +77,7 @@ def get_file_configs(mode: str):
                 ('hidden', int, False),
                 ('country_acronym', str, False),
             ],
-        f"osu_user_stats_{mode}.sql":
+        f"osu_user_stats{mode}.sql":
             [
                 ('user_id', int, True),
                 ('count300', int, False),
