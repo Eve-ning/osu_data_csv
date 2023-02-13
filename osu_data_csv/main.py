@@ -32,7 +32,7 @@ def get_dataset(year_month: str, mode: str, set: str, dl_dir: str,
 @click.command()
 @click.option('--year_month', '-y', default=datetime.now().strftime("%Y_%m"),
               prompt=f"-y: Dataset Year & Month(YYYY_MM)")
-@click.option('--mode', '-d', default="mania", prompt=f"-d: Dataset Mode")
+@click.option('--mode', '-d', default="mania", prompt=f"-d: Dataset Mode (osu/taiko/catch/mania)")
 @click.option('--set', '-s', default="1000", prompt=f"-s: Dataset Top ____ (1000 or 10000)")
 @click.option('--dl_dir', '-l', default="data/", prompt=f"-l: Folder to download files to")
 @click.option('--cleanup', '-c', default="N",
