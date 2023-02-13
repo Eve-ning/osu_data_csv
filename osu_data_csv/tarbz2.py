@@ -2,7 +2,7 @@ import logging
 import tarfile
 from pathlib import Path
 
-from conf import get_file_configs
+from .conf import get_file_configs
 
 
 def unzip_tar_bz2(tar_file: Path, mode: str):
