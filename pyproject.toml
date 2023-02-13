@@ -11,7 +11,6 @@ packages = [{include = "osu_data_csv"}]
 python = "^3.7"
 tqdm = "^4.64.1"
 pandas = "^1.5.3"
-numpy = "^1.24.2"
 wget = "^3.2"
 click = "^8.1.3"
 
