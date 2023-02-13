@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "osu-data-csv"
-version = "0.1.1"
-description = "Downloads, the converts the .sql from data.ppy.sh into .csvs"
+version = "0.1.4"
+description = "Downloads and Converts .sqls from data.ppy.sh into .csv"
 authors = ["Eve-ning <dev_evening@hotmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -11,7 +11,6 @@ packages = [{include = "osu_data_csv"}]
 python = "^3.7"
 tqdm = "^4.64.1"
 pandas = "^1.5.3"
-numpy = "^1.24.2"
 wget = "^3.2"
 click = "^8.1.3"
 

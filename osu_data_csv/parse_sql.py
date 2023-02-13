@@ -55,21 +55,20 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
     #
     # Thus, we need to split the list of tokens into records.
     for token in tokens:
-        token_name, token_type, token_in = file_config[token_ix]
+        token_name, token_type = file_config[token_ix]
 
-        if token_in:
-            # If our token is the start or end, there's a '(' and ')'.
-            # If the token is the very last, we have ');' instead.
-            if token_ix == 0:
-                token = token[1:]
-            elif token_ix == len(file_config) - 1:
-                token = token[:-1 if token.endswith(")") else -2]
+        # If our token is the start or end, there's a '(' and ')'.
+        # If the token is the very last, we have ');' instead.
+        if token_ix == 0:
+            token = token[1:]
+        elif token_ix == len(file_config) - 1:
+            token = token[:-1 if token.endswith(")") else -2]
 
-            # SQL denotes empty as NULL
-            if token == 'NULL':
-                token = ''
+        # SQL denotes empty as NULL
+        if token == 'NULL':
+            token = ''
 
-            record.append(token_type(token) if token else None)
+        record.append(token_type(token) if token else None)
 
         token_ix += 1
 
@@ -79,7 +78,7 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
             record = []
 
     # Get all token names for our dataframe
-    token_names = [x[0] for x in file_config if x[2]]
+    token_names = [x[0] for x in file_config]
 
     df = pd.DataFrame(records, columns=token_names)
     return df

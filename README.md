@@ -25,23 +25,23 @@ ppy
 
 1) `pip install osu-data-csv`
 2) run `osu-data-csv` in the terminal
-```bash
-osu-data-csv
-```
+    ```bash
+    osu-data-csv
+    ```
 
-A series of prompts should show up.
+    A series of prompts should show up. See **Arguments** below for more info and examples
 
-2) (Alternatively) run in a single command
+3) (Alternatively) run in a single command
 
-```bash
-osu-data-csv \
-  -y "2022_12" \
-  -d "mania" \
-  -s "1000" \
-  -l "data/" \
-  -c "N" \
-  -q "Y"
-```
+    ```bash
+    osu-data-csv \
+      -y "2022_12" \
+      -d "mania" \
+      -s "1000" \
+      -l "data/" \
+      -c "N" \
+      -q "Y"
+    ```
 
 ## Arguments
 
