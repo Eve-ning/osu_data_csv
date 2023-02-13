@@ -29,7 +29,7 @@ jobs:
         run: |
           osu-data-csv \
             -y "${YYYY_MM}" \
-            -d "catch" \
+            -d "mania" \
             -s "1000" \
             -l "data/" \
             -c "N" \
