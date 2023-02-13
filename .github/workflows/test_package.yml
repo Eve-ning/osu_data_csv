@@ -1,9 +1,9 @@
 name: Upload files to Release (Custom)
 
 
-on: [pull_request]
-#  schedule:
-#    - cron: "0 0 6 * *"
+on: # [pull_request]
+  schedule:
+    - cron: "0 0 6 * *"
 
 jobs:
   pipeline:
@@ -29,7 +29,7 @@ jobs:
         run: |
           osu-data-csv \
             -y "${YYYY_MM}" \
-            -d "mania" \
+            -d "catch" \
             -s "1000" \
             -l "data/" \
             -c "N" \
