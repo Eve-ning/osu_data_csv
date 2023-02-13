@@ -78,7 +78,7 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
             record = []
 
     # Get all token names for our dataframe
-    token_names = [x[0] for x in file_config if x[2]]
+    token_names = [x[0] for x in file_config]
 
     df = pd.DataFrame(records, columns=token_names)
     return df
