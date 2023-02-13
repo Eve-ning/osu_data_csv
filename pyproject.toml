@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "osu-data-csv"
-version = "0.1.0"
+version = "0.1.1"
 description = "Downloads, the converts the .sql from data.ppy.sh into .csvs"
 authors = ["Eve-ning <dev_evening@hotmail.com>"]
 license = "MIT"
