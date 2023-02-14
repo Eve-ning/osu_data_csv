@@ -86,14 +86,14 @@ def parse_sql_tokens(tokens: list[str], sql_mapping: list[Column]) -> pd.DataFra
     return df
 
 
-def parse_sql_file(sql_path: Path, csv_path: Path, mode: str):
+def parse_sql_file(sql_path: Path, csv_path: Path, sql_mapping: list[Column]):
     """ Parses an SQL file into csv.
 
     Notes:
         This will slowly populate the CSV to avoid loading everything in memory.
     """
     for e, tokens in tqdm(enumerate(read_sql_tokens(sql_path)), desc=f"Parsing {sql_path.stem}"):
-        df = parse_sql_tokens(tokens, get_mapping(mode)[sql_path.name])
+        df = parse_sql_tokens(tokens, sql_mapping)
 
         if e == 0:
             df.to_csv(csv_path.as_posix(), header=True, index=False)
