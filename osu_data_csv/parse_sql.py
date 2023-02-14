@@ -40,13 +40,13 @@ def read_sql_tokens(sql_path: Path):
         pbar.refresh()
 
 
-def parse_sql_tokens(tokens: str, sql_map: list[Column]) -> pd.DataFrame:
+def parse_sql_tokens(tokens: list[str], sql_mapping: list[Column]) -> pd.DataFrame:
     """ Parses the set of sql tokens read. This will use a file config to map the types of the data """
     records = []  # In each set of tokens, we should find multiple records
     record = []  # A record is a row
 
     # This keeps track of the column index of the record
-    token_ix = 0
+    col_ix = 0
 
     # Our INSERT INTO tokens are like:
     # '(123','234', ..., '345)', '(234,' ... , '456);'
@@ -54,33 +54,33 @@ def parse_sql_tokens(tokens: str, sql_map: list[Column]) -> pd.DataFrame:
     #  One Record
     #
     # Thus, we need to split the list of tokens into records.
-    for token in tokens:
-        column_map = sql_map[token_ix]
-        token_name, token_type, token_include = column_map.name, column_map.dtype, column_map.include
+    n_col = len(sql_mapping)
+    for col in tokens:
+        column_map = sql_mapping[col_ix]
 
         # If our token is the start or end, there's a '(' and ')'.
         # If the token is the very last, we have ');' instead.
-        if token_include:
-            if token_ix == 0:
-                token = token[1:]
-            elif token_ix == len(sql_map) - 1:
-                token = token[:-1 if token.endswith(")") else -2]
+        if column_map.include:
+            if col_ix == 0:  # If first column
+                col = col[1:]
+            elif col_ix == n_col - 1:  # If last column
+                col = col[:-1 if col.endswith(")") else -2]
 
             # SQL denotes empty as NULL
-            if token == 'NULL':
-                token = ''
+            if col == 'NULL':
+                col = ''
 
-            record.append(token_type(token) if token else None)
+            record.append(column_map.dtype(col) if col else None)
 
-        token_ix += 1
+        col_ix += 1
 
-        if token_ix == len(sql_map):
+        if col_ix == n_col:
             records.append(record)
-            token_ix = 0
+            col_ix = 0
             record = []
 
     # Get all token names for our dataframe
-    token_names = [x.name for x in sql_map if x.include]
+    token_names = [x.name for x in sql_mapping if x.include]
 
     df = pd.DataFrame(records, columns=token_names)
     return df
