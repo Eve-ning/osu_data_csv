@@ -1,4 +1,8 @@
+![PyPI](https://img.shields.io/pypi/v/osu-data-csv)![PyPI - Python Version](https://img.shields.io/pypi/pyversions/osu-data-csv)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/osu-data-csv)
+
 [![Test PyPI Deployment (Monthly)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml/badge.svg)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml)
+
 # Data PPY CSV Retrieval
 
 Retrieve data from the data ppy dump as CSV files.
