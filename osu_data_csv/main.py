@@ -63,8 +63,8 @@ def get_dataset_click(year_month: str, mode: str, set: str, dl_dir: str,
     Notes:
         --ignore_path is optional.
         You can use this if you want to speed up the conversion.
-        Please refer to the example in the README.md or in
-        https://github.com/Eve-ning/osu_data_csv/blob/master/README.md
+        Get the template here:
+        https://github.com/Eve-ning/osu_data_csv/blob/master/ignore_mapping.yaml
 
     """
     get_dataset(year_month, mode, set, dl_dir, bypass_confirm, cleanup, ignore_path)
