@@ -35,7 +35,7 @@ def get_dataset(year_month: str, mode: str, set: str, dl_dir: str,
               prompt=f"-y: Dataset Year & Month(YYYY_MM)".upper(),
               help="Year Month in the YYYY_MM format")
 @click.option('--mode', '-d',
-              default="catch",
+              default="mania",
               prompt=f"-d: Dataset Mode (osu/taiko/catch/mania)",
               help="Game Mode. Must be either osu/taiko/catch/mania")
 @click.option('--set', '-s',
