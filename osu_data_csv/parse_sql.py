@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 from tqdm import tqdm
@@ -42,7 +43,7 @@ def read_sql_tokens(sql_path: Path):
         pbar.refresh()
 
 
-def parse_sql_tokens(tokens: list[str], sql_mapping: list[Column]) -> pd.DataFrame:
+def parse_sql_tokens(tokens: List[str], sql_mapping: List[Column]) -> pd.DataFrame:
     """ Parses the set of sql tokens read. This will use a file config to map the types of the data """
     records = []  # In each set of tokens, we should find multiple records
     record = []  # A record is a row
@@ -88,7 +89,7 @@ def parse_sql_tokens(tokens: list[str], sql_mapping: list[Column]) -> pd.DataFra
     return df
 
 
-def parse_sql_file(sql_path: Path, csv_path: Path, sql_mapping: list[Column]):
+def parse_sql_file(sql_path: Path, csv_path: Path, sql_mapping: List[Column]):
     """ Parses an SQL file into csv.
 
     Notes:

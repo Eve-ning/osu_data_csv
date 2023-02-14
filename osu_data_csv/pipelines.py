@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Dict, List
 
 from .conf import get_mapping, Column
 from .download import download_file
@@ -9,7 +10,7 @@ from .parse_sql import parse_sql_file
 from .tarbz2 import unzip_tar_bz2
 
 
-def download_pipeline(url: str, fn_tar: Path, files_to_extract: list[str]):
+def download_pipeline(url: str, fn_tar: Path, files_to_extract: List[str]):
     """ Downloads the database files
 
     Args:
@@ -21,7 +22,7 @@ def download_pipeline(url: str, fn_tar: Path, files_to_extract: list[str]):
         unzip_tar_bz2(fn_tar, files_to_extract=files_to_extract)
 
 
-def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mapping: dict[str, list[Column]]):
+def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mapping: Dict[str, List[Column]]):
     """ Converts the sql files to csvs and
 
     Args:

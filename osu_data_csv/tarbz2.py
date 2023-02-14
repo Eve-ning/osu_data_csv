@@ -1,11 +1,10 @@
-from __future__ import annotations
-
 import logging
 import tarfile
 from pathlib import Path
+from typing import List
 
 
-def unzip_tar_bz2(tar_file: Path, files_to_extract: list[str]):
+def unzip_tar_bz2(tar_file: Path, files_to_extract: List[str]):
     """ Unzips the file """
     logging.info(f"Unzipping File {tar_file}")
     with tarfile.open(tar_file.as_posix(), "r:bz2") as tar:

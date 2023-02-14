@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Dict, List
 
 import yaml
 
@@ -32,7 +32,7 @@ class Column:
 def get_mapping(
         mode: str, ignore_path: Path = None,
         default_path: Path = Path(__file__).parent / 'default_mapping.yaml'
-) -> dict[str, list[Column]]:
+) -> Dict[str, List[Column]]:
     """ Retrieves the File Configuration for a particular mode
 
     Notes:
@@ -44,12 +44,12 @@ def get_mapping(
         default_path: Path to default YAML
 
     Returns:
-        The file mapping as a dict[str, list[Column]]
+        The file mapping as a Dict[str, List[Column]]
         E.g. {'osu_beatmaps.sql': [Column(name='beatmap_id', dtype=<class int>, include=True), ... ], ...}
 
     """
     with open(default_path.as_posix(), 'r') as f:
-        mapping: dict[str, list[list[str | bool]]] = yaml.safe_load(f)
+        mapping: Dict[str, List[List[str | bool]]] = yaml.safe_load(f)
 
     # Cast the lists within mapping to Column
     for _, sql_map in mapping.items():
@@ -57,18 +57,18 @@ def get_mapping(
             sql_map[e] = Column(column, type_mapping[dtype], include)
 
     # Explicitly specify the type change.
-    mapping: dict[str, list[Column]]
+    mapping: Dict[str, List[Column]]
 
     # Run only if we have items to ignore
     if ignore_path is not None:
         with open(ignore_path.as_posix(), 'r') as f:
-            ignore: dict[str, list[str]] = yaml.safe_load(f)
+            ignore: Dict[str, List[str]] = yaml.safe_load(f)
 
         # We loop through ignore yaml and set .include to false
         for ignore_sql, ignore_columns in ignore.items():
             for ignore_column in ignore_columns:
                 # We loop through its columns and check if the .name is the ignore_column
-                # mapping[ignore_sql]: list[Column]
+                # mapping[ignore_sql]: List[Column]
                 # x: Column
                 next(filter(lambda x: x.name == ignore_column,
                             mapping[ignore_sql])).include = False
