@@ -1,16 +1,16 @@
 name: Test PyPI Deployment (Monthly)
 
 
-on: [pull_request]
-#  schedule:
-#    - cron: "0 0 6 * *"
+on: # [pull_request]
+  schedule:
+    - cron: "0 0 6 * *"
 
 jobs:
   pipeline:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mode: ["mania", "taiko", "osu", "catch"]
+        mode: [ "mania", "taiko", "osu", "catch" ]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.8
