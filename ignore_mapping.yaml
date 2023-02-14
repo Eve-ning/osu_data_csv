@@ -3,7 +3,7 @@ osu_beatmap_difficulty.sql:
   - mode
   - mods
   - diff_unified
-#  - last_update
+  - last_update
 osu_beatmaps.sql:
   - beatmap_id
   - beatmapset_id
@@ -30,7 +30,7 @@ osu_beatmaps.sql:
   - youtube_preview
   - score_version
   - deleted_at
-#  - bpm
+  - bpm
 osu_scores{mode}_high.sql:
   - score_id
   - beatmap_id
@@ -50,7 +50,7 @@ osu_scores{mode}_high.sql:
   - pp
   - replay
   - hidden
-#  - country_acronym
+  - country_acronym
 osu_user_stats{mode}.sql:
   - user_id
   - count300
@@ -82,4 +82,4 @@ osu_user_stats{mode}.sql:
   - accuracy_new
   - last_update
   - last_played
-#  - total_seconds_played
+  - total_seconds_played
