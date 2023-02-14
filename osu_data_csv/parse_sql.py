@@ -1,10 +1,13 @@
+from __future__ import annotations
+
 import csv
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 from tqdm import tqdm
 
-from .conf import get_file_configs
+from .conf import Column
 
 
 def read_sql_tokens(sql_path: Path):
@@ -40,13 +43,13 @@ def read_sql_tokens(sql_path: Path):
         pbar.refresh()
 
 
-def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
+def parse_sql_tokens(tokens: List[str], sql_mapping: List[Column]) -> pd.DataFrame:
     """ Parses the set of sql tokens read. This will use a file config to map the types of the data """
     records = []  # In each set of tokens, we should find multiple records
     record = []  # A record is a row
 
     # This keeps track of the column index of the record
-    token_ix = 0
+    col_ix = 0
 
     # Our INSERT INTO tokens are like:
     # '(123','234', ..., '345)', '(234,' ... , '456);'
@@ -54,44 +57,46 @@ def parse_sql_tokens(tokens: str, file_config: tuple) -> pd.DataFrame:
     #  One Record
     #
     # Thus, we need to split the list of tokens into records.
-    for token in tokens:
-        token_name, token_type = file_config[token_ix]
+    n_col = len(sql_mapping)
+    for col in tokens:
+        column_map = sql_mapping[col_ix]
 
         # If our token is the start or end, there's a '(' and ')'.
         # If the token is the very last, we have ');' instead.
-        if token_ix == 0:
-            token = token[1:]
-        elif token_ix == len(file_config) - 1:
-            token = token[:-1 if token.endswith(")") else -2]
+        if column_map.include:
+            if col_ix == 0:  # If first column
+                col = col[1:]
+            elif col_ix == n_col - 1:  # If last column
+                col = col[:-1 if col.endswith(")") else -2]
 
-        # SQL denotes empty as NULL
-        if token == 'NULL':
-            token = ''
+            # SQL denotes empty as NULL
+            if col == 'NULL':
+                col = ''
 
-        record.append(token_type(token) if token else None)
+            record.append(column_map.dtype(col) if col else None)
 
-        token_ix += 1
+        col_ix += 1
 
-        if token_ix == len(file_config):
+        if col_ix == n_col:
             records.append(record)
-            token_ix = 0
+            col_ix = 0
             record = []
 
     # Get all token names for our dataframe
-    token_names = [x[0] for x in file_config]
+    token_names = [x.name for x in sql_mapping if x.include]
 
     df = pd.DataFrame(records, columns=token_names)
     return df
 
 
-def parse_sql_file(sql_path: Path, csv_path: Path, mode: str):
+def parse_sql_file(sql_path: Path, csv_path: Path, sql_mapping: List[Column]):
     """ Parses an SQL file into csv.
 
     Notes:
         This will slowly populate the CSV to avoid loading everything in memory.
     """
     for e, tokens in tqdm(enumerate(read_sql_tokens(sql_path)), desc=f"Parsing {sql_path.stem}"):
-        df = parse_sql_tokens(tokens, get_file_configs(mode)[sql_path.name])
+        df = parse_sql_tokens(tokens, sql_mapping)
 
         if e == 0:
             df.to_csv(csv_path.as_posix(), header=True, index=False)

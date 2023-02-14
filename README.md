@@ -40,19 +40,21 @@ ppy
       -s "1000" \
       -l "data/" \
       -c "N" \
-      -q "Y"
+      -q "Y" \
+      -i "path/to/ignore_mapping.yaml"
     ```
 
 ## Arguments
 
-| Option           | Option (Shorthand) | Desc.                                                                  | Example                                      |
-|------------------|--------------------|------------------------------------------------------------------------|----------------------------------------------|
-| --year_month     | -y                 | Dataset Year and Month. Will fail if doesn't exist anymore             | `2022_10`                                    |
-| --mode           | -d                 | Gamemode. ['catch', 'mania', 'osu', 'taiko']                           | `mania`                                      |
-| --set            | -s                 | Dataset of Top 1K or 10K players. ['1000', '10000']                    | `1000`                                       |
-| --dl_dir         | -l                 | Directory to download to. Best if empty. Can be not created.           | `data/`                                      |
-| --cleanup        | -c                 | Whether to delete unused files after conversion. ['Y', 'N']            | `N`                                          |
-| --bypass_confirm | -q                 | Whether to bypass confirmation of downloaded and new files. ['Y', 'N'] | `N`                                          |
+| Option           | Option (Shorthand) | Desc.                                                                  | Example                       |
+|------------------|--------------------|------------------------------------------------------------------------|-------------------------------|
+| --year_month     | -y                 | Dataset Year and Month. Will fail if doesn't exist anymore             | `2022_10`                     |
+| --mode           | -d                 | Gamemode. ['catch', 'mania', 'osu', 'taiko']                           | `mania`                       |
+| --set            | -s                 | Dataset of Top 1K or 10K players. ['1000', '10000']                    | `1000`                        |
+| --dl_dir         | -l                 | Directory to download to. Best if empty. Can be not created.           | `data/`                       |
+| --cleanup        | -c                 | Whether to delete unused files after conversion. ['Y', 'N']            | `N`                           |
+| --bypass_confirm | -q                 | Whether to bypass confirmation of downloaded and new files. ['Y', 'N'] | `N`                           |
+| --ignore_path    | -i                 | Path to YAML file ignore  specification (see next section)             | `path/to/ignore_mapping.yaml` |
 
 It's set to retrieve the following:
 
@@ -62,6 +64,33 @@ osu_scores_<MODE>_high.sql
 osu_beatmap_difficulty.sql
 osu_beatmaps.sql
 ```
+
+### Selecting Columns
+
+It's slow as it converts **all columns**. To speed this up, and reduce space taken, it's best to use `--ignore_path` 
+with a YAML file.
+
+1) [Download the template `ignore_mapping.yaml` here](ignore_mapping.yaml) 
+2) Comment **out** fields that you want to **include**.
+3) Call `osu-data-csv -i path/to/ignore_mapping.yaml [other options]`
+
+For example
+```yaml
+osu_beatmap_difficulty.sql:
+#  - beatmap_id
+  - mode
+  - mods
+  - diff_unified
+  - last_update
+osu_beatmaps.sql:
+  - beatmap_id
+  - beatmapset_id
+#  - user_id
+#  - filename
+...
+```
+
+We'll retrieve `beatmap_id` from `osu_beatmap_difficulty.sql` and `user_id`, `file_name` from `osu_beatmaps.sql` 
 
 ## Output
 

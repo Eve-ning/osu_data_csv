@@ -1,7 +1,11 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from typing import Callable, Dict, List
 
-DATA_DIR = Path(__file__).parents[1] / "data"
+import yaml
 
 mode_mapping = {
     'osu': '',
@@ -10,106 +14,69 @@ mode_mapping = {
     'mania': '_mania',
 }
 
+type_mapping = {
+    'str': str,
+    'int': int,
+    'float': float,
+    'datetime': datetime.fromisoformat
+}
 
-def get_file_configs(mode: str):
+
+@dataclass
+class Column:
+    name: str
+    dtype: Callable
+    include: bool = True
+
+
+def get_mapping(
+        mode: str, ignore_path: Path = None,
+        default_path: Path = Path(__file__).parent / 'default_mapping.yaml'
+) -> Dict[str, List[Column]]:
     """ Retrieves the File Configuration for a particular mode
 
     Notes:
-        This can be easily outdated due to the ever-changing database schema
+        Usually, you don't need to change default_yaml
+
+    Args:
+        mode: Game Mode: (osu/taiko/catch/mania)
+        ignore_path: Path to ignore YAML
+        default_path: Path to default YAML
+
+    Returns:
+        The file mapping as a Dict[str, List[Column]]
+        E.g. {'osu_beatmaps.sql': [Column(name='beatmap_id', dtype=<class int>, include=True), ... ], ...}
+
     """
+    with open(default_path.as_posix(), 'r') as f:
+        mapping: Dict[str, List[List[str | bool]]] = yaml.safe_load(f)
+
+    # Cast the lists within mapping to Column
+    for _, sql_map in mapping.items():
+        for e, (column, dtype, include) in enumerate(sql_map):
+            sql_map[e] = Column(column, type_mapping[dtype], include)
+
+    # Explicitly specify the type change.
+    mapping: Dict[str, List[Column]]
+
+    # Run only if we have items to ignore
+    if ignore_path is not None:
+        with open(ignore_path.as_posix(), 'r') as f:
+            ignore: Dict[str, List[str]] = yaml.safe_load(f)
+
+        # We loop through ignore yaml and set .include to false
+        for ignore_sql, ignore_columns in ignore.items():
+            for ignore_column in ignore_columns:
+                # We loop through its columns and check if the .name is the ignore_column
+                # mapping[ignore_sql]: List[Column]
+                # x: Column
+                next(filter(lambda x: x.name == ignore_column,
+                            mapping[ignore_sql])).include = False
+
     mode = mode_mapping[mode]
-    return {
-        "osu_beatmap_difficulty.sql":
-            [
-                ('beatmap_id', int),
-                ('mode', int),
-                ('mods', int),
-                ('diff_unified', float),
-                ('last_update', datetime.fromisoformat)
-            ],
-        "osu_beatmaps.sql":
-            [
-                ('beatmap_id', int),
-                ('beatmapset_id', int),
-                ('user_id', int),
-                ('filename', str),
-                ('checksum', str),
-                ('version', str),
-                ('total_length', float),
-                ('hit_length', int),
-                ('countTotal', int),
-                ('countNormal', int),
-                ('countSlider', int),
-                ('countSpinner', int),
-                ('diff_drain', float),
-                ('diff_size', float),
-                ('diff_overall', float),
-                ('diff_approach', float),
-                ('playmode', int),
-                ('approved', int),
-                ('last_update', datetime.fromisoformat),
-                ('difficultyrating', float),
-                ('playcount', int),
-                ('passcount', int),
-                ('youtube_preview', str),
-                ('score_version', int),
-                ('deleted_at', datetime.fromisoformat),
-                ('bpm', float),
-            ],
-        f"osu_scores{mode}_high.sql":
-            [
-                ('score_id', int),
-                ('beatmap_id', int),
-                ('user_id', int),
-                ('score', int),
-                ('maxcombo', int),
-                ('rank', str),
-                ('count50', int),
-                ('count100', int),
-                ('count300', int),
-                ('countmiss', int),
-                ('countgeki', int),
-                ('countkatu', int),
-                ('perfect', int),
-                ('enabled_mods', int),
-                ('date', datetime.fromisoformat),
-                ('pp', float),
-                ('replay', int),
-                ('hidden', int),
-                ('country_acronym', str),
-            ],
-        f"osu_user_stats{mode}.sql":
-            [
-                ('user_id', int),
-                ('count300', int),
-                ('count100', int),
-                ('count50', int),
-                ('countMiss', int),
-                ('accuracy_total', int),
-                ('accuracy_count', int),
-                ('accuracy', float),
-                ('playcount', int),
-                ('ranked_score', int),
-                ('total_score', int),
-                ('x_rank_count', int),
-                ('xh_rank_count', int),
-                ('s_rank_count', int),
-                ('sh_rank_count', int),
-                ('a_rank_count', int),
-                ('rank', int),
-                ('level', float),
-                ('replay_popularity', int),
-                ('fail_count', int),
-                ('exit_count', int),
-                ('max_combo', int),
-                ('country_acronym', str),
-                ('rank_score', float),
-                ('rank_score_index', int),
-                ('rank_score_exp', float),
-                ('rank_score_index_exp', int),
-                ('accuracy_new', float),
-                ('last_update', datetime.fromisoformat),
-                ('last_played', datetime.fromisoformat),
-                ('total_seconds_played', int),
-            ]
-    }
+
+    for k, v in list(mapping.items()):
+        # We reformat the {mode} tags to the actual mode
+        mapping[k.format(mode=mode)] = mapping.pop(k)
+
+    return mapping
