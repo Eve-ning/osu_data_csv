@@ -53,6 +53,7 @@ def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str, ignore_path: str):
         ignore_path: Path to ignore YAML file.
 
     """
+
     dl_dir = Path(dl_dir)
     tar_name = fn + ".tar.bz2"
     tar_dir = dl_dir / fn
