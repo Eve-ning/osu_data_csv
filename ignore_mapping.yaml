@@ -1,3 +1,10 @@
+# This is the default ignore mapping.
+# For every column that is NOT commented out, it'll be IGNORED when converting
+# Try to ignore those that are not necessary for your use
+# This will heavily reduce storage needed and increase processing speed
+# Once you're done, reference this file when calling osu-data-csv via
+# osu-data-csv -i path/to/ignore_mapping.yaml
+
 osu_beatmap_difficulty.sql:
   - beatmap_id
   - mode
