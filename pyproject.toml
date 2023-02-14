@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "osu_data_csv"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 tqdm = "^4.64.1"
 pandas = "^1.5.3"
 wget = "^3.2"
