@@ -42,7 +42,7 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mapping: dict[str, list[C
         parse_sql_file(sql_file, csv_file, sql_mapping=sql_mapping)
 
 
-def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str):
+def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str, ignore_path: str):
     """ Runs the download, extract and convert pipeline
 
     Args:
@@ -50,8 +50,7 @@ def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str):
         dl_dir: Download directory
         cleanup: Whether to clean up the .sql and .tar.bz2 upon completion
         mode: Game Mode
-
-    Returns:
+        ignore_path: Path to ignore YAML file.
 
     """
     dl_dir = Path(dl_dir)
@@ -62,7 +61,7 @@ def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str):
     csv_dir.mkdir(parents=True, exist_ok=True)
     tar_url = fr"https://data.ppy.sh/{tar_name}"
 
-    mapping = get_mapping(mode=mode)
+    mapping = get_mapping(mode=mode, ignore_path=Path(ignore_path) if ignore_path else None)
     download_pipeline(tar_url, tar_file, files_to_extract=list(mapping.keys()))
     convert_pipeline_csv(tar_dir, csv_dir=csv_dir, mapping=mapping)
 
