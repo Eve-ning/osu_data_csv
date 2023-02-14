@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install osu-data-csv
+          python -m pip install osu-data-csv==0.1.5
 
       - name: Attempt to use and convert files
         run: |
