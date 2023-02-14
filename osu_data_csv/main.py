@@ -3,7 +3,6 @@ from datetime import datetime
 from pathlib import Path
 
 import click
-import yaml
 
 from .pipelines import pipeline
 
