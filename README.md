@@ -46,15 +46,15 @@ ppy
 
 ## Arguments
 
-| Option           | Option (Shorthand) | Desc.                                                                  | Example   |
-|------------------|--------------------|------------------------------------------------------------------------|-----------|
-| --year_month     | -y                 | Dataset Year and Month. Will fail if doesn't exist anymore             | `2022_10` |
-| --mode           | -d                 | Gamemode. ['catch', 'mania', 'osu', 'taiko']                           | `mania`   |
-| --set            | -s                 | Dataset of Top 1K or 10K players. ['1000', '10000']                    | `1000`    |
-| --dl_dir         | -l                 | Directory to download to. Best if empty. Can be not created.           | `data/`   |
-| --cleanup        | -c                 | Whether to delete unused files after conversion. ['Y', 'N']            | `N`       |
-| --bypass_confirm | -q                 | Whether to bypass confirmation of downloaded and new files. ['Y', 'N'] | `N`       |
-| --ignore_path    | -i                 | Path to YAML file ignore  specification (see next section)             | `""`      |
+| Option           | Option (Shorthand) | Desc.                                                                  | Example                       |
+|------------------|--------------------|------------------------------------------------------------------------|-------------------------------|
+| --year_month     | -y                 | Dataset Year and Month. Will fail if doesn't exist anymore             | `2022_10`                     |
+| --mode           | -d                 | Gamemode. ['catch', 'mania', 'osu', 'taiko']                           | `mania`                       |
+| --set            | -s                 | Dataset of Top 1K or 10K players. ['1000', '10000']                    | `1000`                        |
+| --dl_dir         | -l                 | Directory to download to. Best if empty. Can be not created.           | `data/`                       |
+| --cleanup        | -c                 | Whether to delete unused files after conversion. ['Y', 'N']            | `N`                           |
+| --bypass_confirm | -q                 | Whether to bypass confirmation of downloaded and new files. ['Y', 'N'] | `N`                           |
+| --ignore_path    | -i                 | Path to YAML file ignore  specification (see next section)             | `path/to/ignore_mapping.yaml` |
 
 It's set to retrieve the following:
 
