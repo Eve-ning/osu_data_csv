@@ -2,3 +2,4 @@ tqdm
 pandas
 wget
 click
+pyyaml
