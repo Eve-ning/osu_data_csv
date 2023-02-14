@@ -1,3 +1,4 @@
+[![Test PyPI Deployment (Monthly)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml/badge.svg)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml)
 # Data PPY CSV Retrieval
 
 Retrieve data from the data ppy dump as CSV files.
