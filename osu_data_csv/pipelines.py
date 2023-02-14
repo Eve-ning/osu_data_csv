@@ -28,18 +28,21 @@ def convert_pipeline_csv(tar_dir: Path, csv_dir: Path, mode: str):
         tar_dir: Directory of the SQLs to convert
         csv_dir: Directory of CSV output
     """
-    for sql_name in get_mapping(mode=mode).keys():
+    mapping = get_mapping(mode=mode)
+    for sql_name, sql_mapping in mapping.items():
+        # E.g. sql_name = "osu_beatmaps.sql"
         sql_file = tar_dir / sql_name
         csv_file = csv_dir / (sql_name[:-3] + "csv")
+
         if csv_file.exists():
             logging.info(f"{csv_file} exists, skipping")
             continue
+
         logging.info(f"Converting {sql_file}")
-        parse_sql_file(sql_file, csv_file, mode=mode)
+        parse_sql_file(sql_file, csv_file, sql_mapping=sql_mapping)
 
 
-def pipeline(fn: str, dl_dir: str,
-             cleanup: bool, mode: str):
+def pipeline(fn: str, dl_dir: str, cleanup: bool, mode: str):
     dl_dir = Path(dl_dir)
     tar_name = fn + ".tar.bz2"
     tar_dir = dl_dir / fn
