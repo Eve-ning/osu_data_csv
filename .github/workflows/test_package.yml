@@ -1,14 +1,16 @@
 name: Test PyPI Deployment (Monthly)
 
 
-on:
+on: # [pull_request]
   schedule:
     - cron: "0 0 6 * *"
 
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        mode: [ "mania", "taiko", "osu", "catch" ]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.8
@@ -29,8 +31,8 @@ jobs:
         run: |
           osu-data-csv \
             -y "${YYYY_MM}" \
-            -d "mania" \
+            -d ${{ matrix.mode }} \
             -s "1000" \
             -l "data/" \
             -c "N" \
-            -q "Y"
+            -q "Y" 
