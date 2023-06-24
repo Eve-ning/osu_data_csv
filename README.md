@@ -3,6 +3,8 @@
 
 [![Test PyPI Deployment (Monthly)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml/badge.svg)](https://github.com/Eve-ning/osu_data_csv/actions/workflows/test_package.yml)
 
+❗I recommended to use [osu-data-docker solution](https://github.com/Eve-ning/osu-data-docker) as it's more performant and flexible.
+
 # Data PPY CSV Retrieval
 
 Retrieve data from the data ppy dump as CSV files.
